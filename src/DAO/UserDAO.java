@@ -175,6 +175,25 @@ public class UserDAO {
 
     }
 
+    public void changePassWord(User data) {
+
+        try {
+            Connection con = (Connection) config.JDBCUtil.getConnection();
+            String sql = "update tb_User set passWord=? where userName=?";
+
+            PreparedStatement p = (PreparedStatement) con.prepareStatement(sql);
+
+            p.setString(1, data.getPassWord());
+            p.setString(2, data.getUserName());
+            p.executeUpdate();
+
+            config.JDBCUtil.closeConnection(con);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
     public boolean create(User data) {
         int result = 0;
 

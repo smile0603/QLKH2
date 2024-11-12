@@ -137,10 +137,11 @@ public class Main_Login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    public static User user_temp;
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
         String inputTaiKhoan = txtTaiKhoan.getText().trim();
         String inputMatKhau = String.valueOf(txtMatKhau.getPassword());
+        
         boolean action = true;
         //check tai khoan co null hay khong
         if (inputTaiKhoan.equals("")) {
@@ -167,6 +168,7 @@ public class Main_Login extends javax.swing.JFrame {
             else{
 
                 if(u.getPassWord().trim().equals(inputMatKhau)){
+                    user_temp = new User(inputTaiKhoan, inputMatKhau);
                     new Main().setVisible(true); // invoke Main GUI
                     this.dispose(); // close login GUI
                 }
@@ -178,7 +180,10 @@ public class Main_Login extends javax.swing.JFrame {
         }
               
     }//GEN-LAST:event_btnDangNhapActionPerformed
-
+    
+    public User getUserTemp(){
+        return user_temp;
+    }
 
     public static void main(String args[]) {
 

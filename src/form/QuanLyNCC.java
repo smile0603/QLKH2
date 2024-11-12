@@ -1,4 +1,3 @@
-
 package form;
 
 import DAO.NhaCungCapDAO;
@@ -22,7 +21,6 @@ import raven.toast.Notifications;
 import table.CheckBoxTableHeaderRenderer;
 import table.TableHeaderAligment;
 
-
 public class QuanLyNCC extends javax.swing.JFrame {
 
     public QuanLyNCC() {
@@ -31,20 +29,21 @@ public class QuanLyNCC extends javax.swing.JFrame {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         init();
     }
-    private void init(){
+
+    private void init() {
         GlassPanePopup.install(this);
         Notifications.getInstance().setJFrame(this);
         panel.putClientProperty(FlatClientProperties.STYLE, ""
-        + "arc:25;"
-        + "background:$Table.background" );
-        
+                + "arc:25;"
+                + "background:$Table.background");
+
         table.getTableHeader().putClientProperty(FlatClientProperties.STYLE, ""
-        + "height:30;"
-        + "hoverBackground:null;"
-        + "pressedBackground:null;"
-        + "separatorColor:$TableHeader.background;"
-        + "font:bold;");
-        
+                + "height:30;"
+                + "hoverBackground:null;"
+                + "pressedBackground:null;"
+                + "separatorColor:$TableHeader.background;"
+                + "font:bold;");
+
         table.putClientProperty(FlatClientProperties.STYLE, ""
                 + "rowHeight:30;"
                 + "showHorizontalLines:true;"
@@ -57,11 +56,10 @@ public class QuanLyNCC extends javax.swing.JFrame {
                 + "trackInsets:3,3,3,3;"
                 + "thumbInsets:3,3,3,3;"
                 + "background:$Table.background;");
-        
+
         lbTitle.putClientProperty(FlatClientProperties.STYLE, ""
                 + "font:bold +5;");
-        
-        
+
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Tìm kiếm...");
         txtSearch.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_ICON, new FlatSVGIcon("icon/Search.svg"));
         txtSearch.putClientProperty(FlatClientProperties.STYLE, ""
@@ -71,8 +69,8 @@ public class QuanLyNCC extends javax.swing.JFrame {
                 + "innerFocusWidth:0;"
                 + "margin: 5,20,5,20;"
                 + "background:$Panel.background");
-        
-        table.getColumnModel().getColumn(0).setHeaderRenderer(new CheckBoxTableHeaderRenderer(table,0));
+
+        table.getColumnModel().getColumn(0).setHeaderRenderer(new CheckBoxTableHeaderRenderer(table, 0));
         table.getTableHeader().setDefaultRenderer(new TableHeaderAligment(table));
         try {
             config.JDBCUtil.getConnection();
@@ -82,7 +80,6 @@ public class QuanLyNCC extends javax.swing.JFrame {
         }
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -220,32 +217,33 @@ public class QuanLyNCC extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
     // Load Data From tb_NCC 
 
-    
-    
+
     private void bntThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntThemActionPerformed
         Form_ThemNhaCungCap formThemNCC = new Form_ThemNhaCungCap();
         NhaCungCapDAO nccDAO = new NhaCungCapDAO();
-        DefaultOption option = new DefaultOption(){
+        DefaultOption option = new DefaultOption() {
             @Override
             public boolean closeWhenClickOutside() {
                 return true;
             }
-            
+
         };
         String actions[] = new String[]{"Hủy", "Lưu"};
-        GlassPanePopup.showPopup(new SimplePopupBorder(formThemNCC,"Thêm nhà cung cấp",actions,(pc,i) ->{
-            if(i == 1){
+        GlassPanePopup.showPopup(new SimplePopupBorder(formThemNCC, "Thêm nhà cung cấp", actions, (pc, i) -> {
+            if (i == 1) {
                 //Save
                 try {
-                    nccDAO.create(formThemNCC.getData());
-                    pc.closePopup();
-                    Notifications.getInstance().show(Notifications.Type.SUCCESS,"Thêm thành công!");
-                    loadData();
-                    
+                    if (formThemNCC.validData() == true) {
+                        nccDAO.create(formThemNCC.getData());
+                        pc.closePopup();
+                        Notifications.getInstance().show(Notifications.Type.SUCCESS, "Thêm thành công!");
+                        loadData();
+                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            }else{
+            } else {
                 pc.closePopup();
             }
         }), option);
@@ -254,81 +252,80 @@ public class QuanLyNCC extends javax.swing.JFrame {
     private void btnChinhSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChinhSuaActionPerformed
         // TODO add your handling code here:
         List<NhaCungCap> list = getSelectedData();
-        if(!list.isEmpty()){
-            if(list.size() == 1){
+        if (!list.isEmpty()) {
+            if (list.size() == 1) {
                 NhaCungCap ncc = list.get(0);
                 NhaCungCapDAO nccDAO = new NhaCungCapDAO();
                 Form_ThemNhaCungCap formThemNCC = new Form_ThemNhaCungCap();
                 formThemNCC.loadData(nccDAO, ncc);
-                DefaultOption option = new DefaultOption(){
-            @Override
-            public boolean closeWhenClickOutside() {
-                return true;
-            }
-            
-        };
-        String actions[] = new String[]{"Hủy", "Chỉnh sửa"};
-        GlassPanePopup.showPopup(new SimplePopupBorder(formThemNCC,"Chỉnh sửa nhà cung cấp",actions,(pc,i) ->{
-            if(i == 1){
-                //Edit
-                try {
-                    NhaCungCap nccEdit = formThemNCC.getData();
-                    nccEdit.setMaNCC(ncc.getMaNCC());
-                    nccDAO.edit(nccEdit);
-                    pc.closePopup();
-                    Notifications.getInstance().show(Notifications.Type.SUCCESS,"Chỉnh sửa thành công!");
-                    
-                    
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                loadData();
-            }else{
-                pc.closePopup();
-            }
-        }), option);
-            }else{
+                DefaultOption option = new DefaultOption() {
+                    @Override
+                    public boolean closeWhenClickOutside() {
+                        return true;
+                    }
+
+                };
+                String actions[] = new String[]{"Hủy", "Chỉnh sửa"};
+                GlassPanePopup.showPopup(new SimplePopupBorder(formThemNCC, "Chỉnh sửa nhà cung cấp", actions, (pc, i) -> {
+                    if (i == 1) {
+                        //Edit
+                        try {
+                            NhaCungCap nccEdit = formThemNCC.getData();
+                            nccEdit.setMaNCC(ncc.getMaNCC());
+                            nccDAO.edit(nccEdit);
+                            pc.closePopup();
+                            Notifications.getInstance().show(Notifications.Type.SUCCESS, "Chỉnh sửa thành công!");
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        loadData();
+                    } else {
+                        pc.closePopup();
+                    }
+                }), option);
+            } else {
                 Notifications.getInstance().show(Notifications.Type.WARNING, "Chỉ chọn một nhà cung cấp");
             }
-        }else{
-             Notifications.getInstance().show(Notifications.Type.WARNING, "Chọn dòng cần chỉnh sửa");
+        } else {
+            Notifications.getInstance().show(Notifications.Type.WARNING, "Chọn dòng cần chỉnh sửa");
         }
     }//GEN-LAST:event_btnChinhSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
         List<NhaCungCap> list = getSelectedData();
-        if(!list.isEmpty()){
-            DefaultOption option = new DefaultOption(){
-            @Override
-            public boolean closeWhenClickOutside() {
-                return true;
-            }
-            
-        };
-        String actions[] = new String[]{"Hủy", "Xóa"};
-        JLabel label = new JLabel("Bạn có muốn xóa "+list.size()+" nhà cung cấp");
-        label.setBorder(new EmptyBorder(0,25,0,25));
-        NhaCungCapDAO nccDAO = new NhaCungCapDAO();
-        GlassPanePopup.showPopup(new SimplePopupBorder(label,"Xác nhận xóa",actions,(pc,i) ->{
-            if(i == 1){
-                //Delete
-                try {
-                    for(NhaCungCap ncc : list){
-                        nccDAO.delete(ncc.getMaNCC());
-                    }
-                    pc.closePopup();
-                    Notifications.getInstance().show(Notifications.Type.SUCCESS,"Xóa thành công!");
-                } catch (Exception e) {
-                    e.printStackTrace();
+        if (!list.isEmpty()) {
+            DefaultOption option = new DefaultOption() {
+                @Override
+                public boolean closeWhenClickOutside() {
+                    return true;
                 }
-                loadData();
-            }else{
-                pc.closePopup();
-            }
-        }), option);
-            
-        }else{
+
+            };
+            String actions[] = new String[]{"Hủy", "Xóa"};
+            JLabel label = new JLabel("Bạn có muốn xóa " + list.size() + " nhà cung cấp");
+            label.setBorder(new EmptyBorder(0, 25, 0, 25));
+            NhaCungCapDAO nccDAO = new NhaCungCapDAO();
+            GlassPanePopup.showPopup(new SimplePopupBorder(label, "Xác nhận xóa", actions, (pc, i) -> {
+                if (i == 1) {
+                    //Delete
+                    try {
+                        for (NhaCungCap ncc : list) {
+                            nccDAO.delete(ncc.getMaNCC());
+                        }
+                        pc.closePopup();
+                        Notifications.getInstance().show(Notifications.Type.SUCCESS, "Xóa thành công!");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    loadData();
+                } else {
+                    pc.closePopup();
+                }
+            }), option);
+
+        } else {
             Notifications.getInstance().show(Notifications.Type.WARNING, "Chọn dòng cần xoá");
         }
     }//GEN-LAST:event_btnXoaActionPerformed
@@ -338,15 +335,15 @@ public class QuanLyNCC extends javax.swing.JFrame {
         searchData(txtSearch.getText().trim());
     }//GEN-LAST:event_txtSearchKeyReleased
 
-    private List<NhaCungCap> getSelectedData(){
+    private List<NhaCungCap> getSelectedData() {
         List<NhaCungCap> list = new ArrayList<>();
         for (int i = 0; i < table.getRowCount(); i++) {
-            if((boolean)table.getValueAt(i, 0)){
+            if ((boolean) table.getValueAt(i, 0)) {
                 NhaCungCap ncc = (NhaCungCap) table.getValueAt(i, 3); // Lien quan toi method toTableRow
                 list.add(ncc);
-                
+
             }
-            
+
         }
         return list;
     }
@@ -361,32 +358,34 @@ public class QuanLyNCC extends javax.swing.JFrame {
 //            }
 //        });
 //    }
-    private void loadData(){
+
+    private void loadData() {
         NhaCungCapDAO nccDAO = new NhaCungCapDAO();
         try {
             DefaultTableModel model = (DefaultTableModel) table.getModel();
-            if(table.isEditing()){
+            if (table.isEditing()) {
                 table.getCellEditor().stopCellEditing();
             }
             model.setRowCount(0);
             List<NhaCungCap> listNCC = nccDAO.getAllNhaCungCap();
-            for(NhaCungCap ncc : listNCC){
+            for (NhaCungCap ncc : listNCC) {
                 model.addRow(ncc.toTableRow(table.getRowCount() + 1));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-        private void searchData(String txtSearch){
+
+    private void searchData(String txtSearch) {
         NhaCungCapDAO nccDAO = new NhaCungCapDAO();
         try {
             DefaultTableModel model = (DefaultTableModel) table.getModel();
-            if(table.isEditing()){
+            if (table.isEditing()) {
                 table.getCellEditor().stopCellEditing();
             }
             model.setRowCount(0);
             List<NhaCungCap> listNCC = nccDAO.search(txtSearch);
-            for(NhaCungCap ncc : listNCC){
+            for (NhaCungCap ncc : listNCC) {
                 model.addRow(ncc.toTableRow(table.getRowCount() + 1));
             }
         } catch (Exception e) {
