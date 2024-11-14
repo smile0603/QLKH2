@@ -270,11 +270,14 @@ public class QuanLyNCC extends javax.swing.JFrame {
                     if (i == 1) {
                         //Edit
                         try {
-                            NhaCungCap nccEdit = formThemNCC.getData();
-                            nccEdit.setMaNCC(ncc.getMaNCC());
-                            nccDAO.edit(nccEdit);
-                            pc.closePopup();
-                            Notifications.getInstance().show(Notifications.Type.SUCCESS, "Chỉnh sửa thành công!");
+                            if(formThemNCC.validData() == true){
+                                NhaCungCap nccEdit = formThemNCC.getData();
+                                nccEdit.setMaNCC(ncc.getMaNCC());
+                                nccDAO.edit(nccEdit);
+                                pc.closePopup();
+                                Notifications.getInstance().show(Notifications.Type.SUCCESS, "Chỉnh sửa thành công!");
+                            }
+                            
 
                         } catch (Exception e) {
                             e.printStackTrace();

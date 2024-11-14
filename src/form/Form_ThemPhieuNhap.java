@@ -6,20 +6,21 @@ import entity.PhieuNhap;
 import entity.SanPham;
 import entity.NhaCungCap;
 import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class Form_ThemPhieuNhap extends javax.swing.JPanel {
 
-
     public Form_ThemPhieuNhap() {
         initComponents();
-        
+
         cbbNhaCC.setSelectedIndex(-1);
         cbbNhaCC.setLabeText("Tên nhà cung cấp");
         cbbNV.setLabeText("Nhân viên");
         cbbNV.setSelectedIndex(-1);
         cbbSanPham.setLabeText("Tên sản phẩm");
         cbbSanPham.setSelectedIndex(-1);
-        
+
         txtMaPN.setLabelText("Mã phiếu nhập");
         txtMaPN.setEditable(false);
         txtSoLuong.setLabelText("Số lượng");
@@ -28,43 +29,43 @@ public class Form_ThemPhieuNhap extends javax.swing.JPanel {
         txtThanhTien.setLabelText("Thành tiền");
         txtThanhTien.setEditable(false);
         txtGhiChu.setLabelText("Ghi chú");
-        
-        
-        
+
         datePicker.setCloseAfterSelected(true);
         datePicker.setEditor(txtDate);
     }
-    
+
     // get name tbNhanVien to combo box NhanVien
-    public void loadDataCbbNhanVien(PhieuNhapDAO phieunhapDAO){
+    public void loadDataCbbNhanVien(PhieuNhapDAO phieunhapDAO) {
         try {
-            for(NhanVien nv : phieunhapDAO.getNhanVienDAO().getAllNhanVien()){
+            for (NhanVien nv : phieunhapDAO.getNhanVienDAO().getAllNhanVien()) {
                 cbbNV.addItem(nv);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public void loadDataCbbSanPham(PhieuNhapDAO phieunhapDAO){
+
+    public void loadDataCbbSanPham(PhieuNhapDAO phieunhapDAO) {
         try {
-            for(SanPham sp : phieunhapDAO.getSanPhamDAO().getAllSanPham()){
+            for (SanPham sp : phieunhapDAO.getSanPhamDAO().getAllSanPham()) {
                 cbbSanPham.addItem(sp);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    public void loadDataCbbNhaCungCap(PhieuNhapDAO phieunhapDAO){
+
+    public void loadDataCbbNhaCungCap(PhieuNhapDAO phieunhapDAO) {
         try {
-            for(NhaCungCap ncc : phieunhapDAO.getNhaCungCapDAO().getAllNhaCungCap()){
+            for (NhaCungCap ncc : phieunhapDAO.getNhaCungCapDAO().getAllNhaCungCap()) {
                 cbbNhaCC.addItem(ncc);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }    
-    
-    public PhieuNhap getDataFromInput(){
+    }
+
+    public PhieuNhap getDataFromInput() {
         SanPham sp = (SanPham) cbbSanPham.getSelectedItem();
         NhaCungCap ncc = (NhaCungCap) cbbNhaCC.getSelectedItem();
         NhanVien nv = (NhanVien) cbbNV.getSelectedItem();
@@ -72,55 +73,84 @@ public class Form_ThemPhieuNhap extends javax.swing.JPanel {
         int soLuong = Integer.parseInt(txtSoLuong.getText().trim());
         double donGia = Double.parseDouble(txtDonGia.getText().trim());
         double chietKhau = Double.parseDouble(txtChietKhau.getText().trim());
-        double thanhTien = (soLuong * donGia) - (soLuong * donGia * (chietKhau/100));
+        double thanhTien = (soLuong * donGia) - (soLuong * donGia * (chietKhau / 100));
         String ghiChu = txtGhiChu.getText().trim();
         return new PhieuNhap(0, sp, ncc, nv, ngayNhap, soLuong, donGia, chietKhau, thanhTien, ghiChu);
-        
+
     }
-    public void loadData(PhieuNhapDAO phieuNhapDAO, PhieuNhap data){
-       try {
-            for(NhaCungCap ncc : phieuNhapDAO.getNhaCungCapDAO().getAllNhaCungCap()){
+
+    public void loadData(PhieuNhapDAO phieuNhapDAO, PhieuNhap data) {
+        try {
+            for (NhaCungCap ncc : phieuNhapDAO.getNhaCungCapDAO().getAllNhaCungCap()) {
                 cbbNhaCC.addItem(ncc);
-                if(data != null && data.getNhaCungCap().getMaNCC() == ncc.getMaNCC()){
+                if (data != null && data.getNhaCungCap().getMaNCC() == ncc.getMaNCC()) {
                     cbbNhaCC.setSelectedItem(ncc);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-       try {
-            for(NhanVien nv : phieuNhapDAO.getNhanVienDAO().getAllNhanVien()){
+        try {
+            for (NhanVien nv : phieuNhapDAO.getNhanVienDAO().getAllNhanVien()) {
                 cbbNV.addItem(nv);
-                if(data != null && data.getNhanVien().getMaNV() == nv.getMaNV()){
+                if (data != null && data.getNhanVien().getMaNV() == nv.getMaNV()) {
                     cbbNV.setSelectedItem(nv);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-       try {
-            for(SanPham sp : phieuNhapDAO.getSanPhamDAO().getAllSanPham()){
+        try {
+            for (SanPham sp : phieuNhapDAO.getSanPhamDAO().getAllSanPham()) {
                 cbbSanPham.addItem(sp);
-                if(data != null && data.getSanPham().getMaSP() == sp.getMaSP()){
+                if (data != null && data.getSanPham().getMaSP() == sp.getMaSP()) {
                     cbbSanPham.setSelectedItem(sp);
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(data != null){
-            if(data.getNgayNhap() != null){
+        if (data != null) {
+            if (data.getNgayNhap() != null) {
                 datePicker.setSelectedDate(data.getNgayNhap().toLocalDate());
             }
-            
+
             txtGhiChu.setText(data.getGhiChu());
             txtSoLuong.setText(Integer.toString(data.getSoLuong()));
             txtDonGia.setText(Double.toString(data.getDonGia()));
             txtChietKhau.setText(Double.toString(data.getChietKhau()));
             txtThanhTien.setText(Double.toString(data.getThanhTien()));
-            
+
         }
     }
+
+    public boolean validData() {
+        String soLuong = txtSoLuong.getText().trim();
+        String donGia = txtDonGia.getText().trim();
+        String chietKhau = txtChietKhau.getText().trim();
+//        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+//        String ngayNhap = df.format(datePicker.isDateSelected() ? Date.valueOf(datePicker.getSelectedDate()) : null);
+        Date ngayNhap = datePicker.isDateSelected() ? Date.valueOf(datePicker.getSelectedDate()) : null;
+        if (ngayNhap == null) {
+            lbNotification.setText("Vui lòng chọn ngày nhập");
+            return false;
+        }
+        if (!(soLuong.length() > 0 && soLuong.matches("[1|2|3|4|5|6|7|8|9]+[0-9]"))) {
+            lbNotification.setText("Số lượng không hợp lệ");
+            return false;
+        }
+        if (!(donGia.length() > 0 && donGia.matches("^(\\d+\\.)?\\d+$"))) {
+            lbNotification.setText("Đơn giá không hợp lệ");
+            return false;
+        }
+        if (!(chietKhau.length() > 0 && chietKhau.matches("^(\\d+\\.)?\\d+$") && Double.parseDouble(chietKhau) <= 100)) {
+            lbNotification.setText("Chiết khấu <= 100%");
+            return false;
+        }
+
+        return true;
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -138,6 +168,7 @@ public class Form_ThemPhieuNhap extends javax.swing.JPanel {
         txtThanhTien = new swing.TextField();
         txtGhiChu = new swing.TextField();
         cbbSanPham = new swing.Combobox<>();
+        lbNotification = new javax.swing.JLabel();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -164,6 +195,9 @@ public class Form_ThemPhieuNhap extends javax.swing.JPanel {
 
         cbbSanPham.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
+        lbNotification.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lbNotification.setForeground(new java.awt.Color(255, 51, 51));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -176,6 +210,7 @@ public class Form_ThemPhieuNhap extends javax.swing.JPanel {
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lbNotification, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cbbNV, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtDate)
                             .addComponent(cbbNhaCC, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -184,7 +219,7 @@ public class Form_ThemPhieuNhap extends javax.swing.JPanel {
                         .addGap(100, 100, 100)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(cbbSanPham, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtSoLuong, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                            .addComponent(txtSoLuong, javax.swing.GroupLayout.DEFAULT_SIZE, 251, Short.MAX_VALUE)
                             .addComponent(txtDonGia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtChietKhau, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtThanhTien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -193,7 +228,9 @@ public class Form_ThemPhieuNhap extends javax.swing.JPanel {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
+                .addGap(15, 15, 15)
+                .addComponent(lbNotification)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -218,7 +255,7 @@ public class Form_ThemPhieuNhap extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtGhiChu, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtThanhTien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -229,7 +266,7 @@ public class Form_ThemPhieuNhap extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -241,6 +278,7 @@ public class Form_ThemPhieuNhap extends javax.swing.JPanel {
     private raven.datetime.component.date.DatePicker datePicker;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lbNotification;
     private swing.TextField txtChietKhau;
     private javax.swing.JFormattedTextField txtDate;
     private swing.TextField txtDonGia;

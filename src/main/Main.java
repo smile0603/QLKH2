@@ -3,11 +3,12 @@ package main;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import event.EventMenuSelected;
-import form.Form_QuanLyUser;
+import form.Form_User;
 
 import form.Form_PhieuNhap;
 
 import form.Form_NhaCungCap;
+import form.Form_NhanVien;
 import form.Form_PhieuXuat;
 import form.Form_SanPham;
 
@@ -26,7 +27,8 @@ public class Main extends javax.swing.JFrame {
     private Form_NhaCungCap formNhaCungCap;
     private Form_SanPham formSanPham;
     private Form_ThongKe form_ThongKe;
-    private Form_QuanLyUser form_Admin;
+    private Form_User form_Admin;
+    private Form_NhanVien form_NhanVien;
 
     public Main() {
         FlatRobotoFont.install();
@@ -40,8 +42,9 @@ public class Main extends javax.swing.JFrame {
         formNhaCungCap = new Form_NhaCungCap();
         formPhieuXuat = new Form_PhieuXuat();
         form_ThongKe = new Form_ThongKe();
-
-        form_Admin = new Form_QuanLyUser();
+        form_NhanVien = new Form_NhanVien();
+        form_Admin = new Form_User();
+        
         menu.initMoving(Main.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
             @Override
@@ -57,13 +60,14 @@ public class Main extends javax.swing.JFrame {
 
                 } else if (index == 4) {
                     setForm(formNhaCungCap);
-                } else if (index == 6) {
+                } 
+                else if (index == 5) {
+                    setForm(form_NhanVien);
+                }
+                else if (index == 7) {
                     setForm(form_Admin);
                     
                     
-                } else if (index == 7) {
-                    setForm(form_Admin);
-
                 }
                 else if (index == 8) {
                     if (JOptionPane.showConfirmDialog(null, "Bạn có muốn thoát?", "Thoát",

@@ -226,9 +226,12 @@ public class QuanLyPhieuNhap extends javax.swing.JFrame {
             if (i == 1) {
                 //Save
                 try {
-                    phieuNhapDAO.create(form_ThemPhieuNhap.getDataFromInput());
-                    pc.closePopup();
-                    Notifications.getInstance().show(Notifications.Type.SUCCESS, "Tạo phiếu nhập thành công");
+                    if (form_ThemPhieuNhap.validData() == true) {
+                        phieuNhapDAO.create(form_ThemPhieuNhap.getDataFromInput());
+                        pc.closePopup();
+                        Notifications.getInstance().show(Notifications.Type.SUCCESS, "Tạo phiếu nhập thành công");
+                    }
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -264,11 +267,14 @@ public class QuanLyPhieuNhap extends javax.swing.JFrame {
                     if (i == 1) {
                         //edit
                         try {
-                            PhieuNhap dataEdit = form_ThemPhieuNhap.getDataFromInput();
-                            dataEdit.setMaPN(data.getMaPN());
-                            phieuNhapDAO.edit(dataEdit);
-                            pc.closePopup();
-                            Notifications.getInstance().show(Notifications.Type.SUCCESS, "Chỉnh sửa phiếu nhập thành công");
+                            if(form_ThemPhieuNhap.validData() == true){
+                                PhieuNhap dataEdit = form_ThemPhieuNhap.getDataFromInput();
+                                dataEdit.setMaPN(data.getMaPN());
+                                phieuNhapDAO.edit(dataEdit);
+                                pc.closePopup();
+                                Notifications.getInstance().show(Notifications.Type.SUCCESS, "Chỉnh sửa phiếu nhập thành công");
+                            }
+                            
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -296,14 +302,14 @@ public class QuanLyPhieuNhap extends javax.swing.JFrame {
                 }
             };
             String actions[] = new String[]{"Hủy", "Xóa"};
-            JLabel label = new JLabel("Bạn có chắn chắn xóa " + list.size() +" phiếu nhập");
-            label.setBorder(new EmptyBorder(0,25,0,25));
-            
+            JLabel label = new JLabel("Bạn có chắn chắn xóa " + list.size() + " phiếu nhập");
+            label.setBorder(new EmptyBorder(0, 25, 0, 25));
+
             GlassPanePopup.showPopup(new SimplePopupBorder(label, "Xóa phiếu nhập", actions, (pc, i) -> {
                 if (i == 1) {
                     //Delete
                     try {
-                        for(PhieuNhap phieuNhap : list){
+                        for (PhieuNhap phieuNhap : list) {
                             phieuNhapDAO.delete(phieuNhap.getMaPN());
                         }
                         pc.closePopup();

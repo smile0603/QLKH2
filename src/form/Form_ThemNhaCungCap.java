@@ -95,7 +95,7 @@ public class Form_ThemNhaCungCap extends javax.swing.JPanel {
             lbNotification.setText("Địa chỉ không hợp lệ");
             return false;
         }
-        if (!(sdtNCC.length() > 0 && sdtNCC.matches("([\\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\\b"))) {
+        if (!(sdtNCC.length() > 0 && sdtNCC.matches("([0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\\b"))) {
             lbNotification.setText("Số điện thoại không hợp lệ");
             return false;
         }

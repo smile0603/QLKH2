@@ -225,9 +225,12 @@ public class QuanLyPhieuXuat extends javax.swing.JFrame {
             if (i == 1) {
                 //Save
                 try {
-                    phieuXuatDAO.create(form_ThemPhieuXuat.getDataFromInput());
-                    pc.closePopup();
-                    Notifications.getInstance().show(Notifications.Type.SUCCESS, "Tạo phiếu xuất thành công");
+                    if(form_ThemPhieuXuat.validData() == true){
+                        phieuXuatDAO.create(form_ThemPhieuXuat.getDataFromInput());
+                        pc.closePopup();
+                        Notifications.getInstance().show(Notifications.Type.SUCCESS, "Tạo phiếu xuất thành công");
+                    }
+                    
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -257,11 +260,14 @@ public class QuanLyPhieuXuat extends javax.swing.JFrame {
                     if (i == 1) {
                         //edit
                         try {
-                            PhieuXuat dataEdit = form_ThemPhieuXuat.getDataFromInput();
-                            dataEdit.setMaPX(data.getMaPX());
-                            phieuXuatDAO.edit(dataEdit);
-                            pc.closePopup();
-                            Notifications.getInstance().show(Notifications.Type.SUCCESS, "Chỉnh sửa phiếu xuất thành công");
+                            if(form_ThemPhieuXuat.validData() == true){
+                                PhieuXuat dataEdit = form_ThemPhieuXuat.getDataFromInput();
+                                dataEdit.setMaPX(data.getMaPX());
+                                phieuXuatDAO.edit(dataEdit);
+                                pc.closePopup();
+                                Notifications.getInstance().show(Notifications.Type.SUCCESS, "Chỉnh sửa phiếu xuất thành công");
+                            }
+                            
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

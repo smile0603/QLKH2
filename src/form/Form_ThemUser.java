@@ -3,9 +3,9 @@ package form;
 import DAO.UserDAO;
 import entity.User;
 
-public class Form_ThemTaiKhoan extends javax.swing.JPanel {
+public class Form_ThemUser extends javax.swing.JPanel {
 
-    public Form_ThemTaiKhoan() {
+    public Form_ThemUser() {
         initComponents();
         txtUserName.setLabelText("Tài khoản");
         txtpassWord.setLabelText("Mật khẩu");
@@ -21,7 +21,7 @@ public class Form_ThemTaiKhoan extends javax.swing.JPanel {
         String fullName = txtFullName.getText().trim();
         String email = txtEmail.getText().trim();
         String txtpassWord = String.valueOf(this.txtpassWord.getPassword());
-        return new User(userName,txtpassWord, fullName, email);
+        return new User(userName, txtpassWord, fullName, email);
 
     }
 
@@ -35,6 +35,32 @@ public class Form_ThemTaiKhoan extends javax.swing.JPanel {
         }
     }
 
+    public boolean validData() {
+        String userName = txtUserName.getText().trim();
+        String fullName = txtFullName.getText().trim();
+        String txtpassWord = String.valueOf(this.txtpassWord.getPassword());
+        String email = txtEmail.getText().trim();
+
+        if (!(userName.length() > 0 && userName.matches("[A-Za-z0-9_-]{6,12}$"))) {
+            lbNotification.setText("Tài khoản gồm 6-12 kí tự và không chứa khoảng trắng");
+            return false;
+        }
+        if (!(txtpassWord.length() > 0 && txtpassWord.matches("[a-z0-9_-]{6,12}$"))) {
+            lbNotification.setText("Mật khẩu gồm 6-12 kí tự và không chứa khoảng trắng");
+            return false;
+        }
+        if (!(email.length() > 0 && email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$"))) {
+            lbNotification.setText("Email không hợp lệ");
+            return false;
+        }
+        if (!(fullName.length() > 0 && fullName.matches("[\\w\\dÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ ]+"))) {
+            lbNotification.setText("Tên không hợp lệ không hợp lệ");
+            return false;
+        }
+
+        return true;
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -44,6 +70,7 @@ public class Form_ThemTaiKhoan extends javax.swing.JPanel {
         txtEmail = new swing.TextField();
         txtpassWord = new swing.PasswordField();
         confirmPass = new swing.PasswordField();
+        lbNotification = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -53,25 +80,30 @@ public class Form_ThemTaiKhoan extends javax.swing.JPanel {
 
         txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
+        lbNotification.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lbNotification.setForeground(new java.awt.Color(255, 0, 0));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(40, 40, 40)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtFullName, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
-                        .addComponent(txtUserName, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
-                        .addComponent(txtpassWord, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(confirmPass, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(txtFullName, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
+                    .addComponent(txtUserName, javax.swing.GroupLayout.DEFAULT_SIZE, 309, Short.MAX_VALUE)
+                    .addComponent(txtpassWord, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(confirmPass, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbNotification, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(30, Short.MAX_VALUE)
+                .addContainerGap(44, Short.MAX_VALUE)
+                .addComponent(lbNotification)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtUserName, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(txtpassWord, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -88,6 +120,7 @@ public class Form_ThemTaiKhoan extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private swing.PasswordField confirmPass;
+    private javax.swing.JLabel lbNotification;
     private swing.TextField txtEmail;
     private swing.TextField txtFullName;
     private swing.TextField txtUserName;

@@ -272,11 +272,13 @@ public class QuanLySanPham extends javax.swing.JFrame {
                     if (i == 1) {
                         //Edit
                         try {
-                            SanPham spEdit = formThemSP.getDataFromInput();
-                            spEdit.setMaSP(sp.getMaSP());
-                            sanPhamDAO.edit(spEdit);
-                            pc.closePopup();
-                            Notifications.getInstance().show(Notifications.Type.SUCCESS, "Chỉnh sửa thành công!");
+                            if (formThemSP.validData() == true) {
+                                SanPham spEdit = formThemSP.getDataFromInput();
+                                spEdit.setMaSP(sp.getMaSP());
+                                sanPhamDAO.edit(spEdit);
+                                pc.closePopup();
+                                Notifications.getInstance().show(Notifications.Type.SUCCESS, "Chỉnh sửa thành công!");
+                            }
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -310,10 +312,13 @@ public class QuanLySanPham extends javax.swing.JFrame {
             if (i == 1) {
                 //Save
                 try {
-                    sanPhamDAO.create(formThemSP.getDataFromInput());
-                    pc.closePopup();
-                    Notifications.getInstance().show(Notifications.Type.SUCCESS, "Thêm thành công!");
-                    loadData();
+                    if(formThemSP.validData() == true){
+                        sanPhamDAO.create(formThemSP.getDataFromInput());
+                        pc.closePopup();
+                        Notifications.getInstance().show(Notifications.Type.SUCCESS, "Thêm thành công!");
+                        loadData();
+                    }
+
 
                 } catch (Exception e) {
                     e.printStackTrace();

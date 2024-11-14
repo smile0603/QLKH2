@@ -53,7 +53,12 @@ public class NhanVien {
         this.tenNV = tenNV;
 
     }    
-
+    public Object[] toTableRow(int rowNum){
+        return new Object[]{false,rowNum,maNV,this,mail,sdt};
+    }
+    public Object[] toTableRow2(int rowNum){
+        return new Object[]{rowNum,maNV,this,mail,sdt};
+    }
     @Override
     public String toString() {
         return tenNV;

@@ -3,14 +3,13 @@ package form;
 import DAO.UserDAO;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
+
 import entity.User;
-import java.awt.Font;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JLabel;
-import javax.swing.UIManager;
+
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import raven.popup.DefaultOption;
@@ -260,8 +259,8 @@ public class QuanLyTaiKhoan extends javax.swing.JFrame {
             if (list.size() == 1) {
                 User user = list.get(0);
                 UserDAO userDAO = new UserDAO();
-                Form_ThemTaiKhoan form_ThemTaiKhoan = new Form_ThemTaiKhoan();
-                form_ThemTaiKhoan.loadData(userDAO, user);
+                Form_ThemUser form_ThemUser = new Form_ThemUser();
+                form_ThemUser.loadData(userDAO, user);
 
                 DefaultOption option = new DefaultOption() {
                     @Override
@@ -271,15 +270,18 @@ public class QuanLyTaiKhoan extends javax.swing.JFrame {
 
                 };
                 String actions[] = new String[]{"Hủy", "Chỉnh sửa"};
-                GlassPanePopup.showPopup(new SimplePopupBorder(form_ThemTaiKhoan, "Chỉnh sửa tài khoản", actions, (pc, i) -> {
+                GlassPanePopup.showPopup(new SimplePopupBorder(form_ThemUser, "Chỉnh sửa tài khoản", actions, (pc, i) -> {
                     if (i == 1) {
                         //Edit
                         try {
-                            User userEdit = form_ThemTaiKhoan.getDataFromInput();
-                            userEdit.setUserName(user.getUserName());
-                            userDAO.edit(userEdit);
-                            pc.closePopup();
-                            Notifications.getInstance().show(Notifications.Type.SUCCESS, "Chỉnh sửa thành công!");
+                            if(form_ThemUser.validData() == true){
+                                User userEdit = form_ThemUser.getDataFromInput();
+                                userEdit.setUserName(user.getUserName());
+                                userDAO.edit(userEdit);
+                                pc.closePopup();
+                                Notifications.getInstance().show(Notifications.Type.SUCCESS, "Chỉnh sửa thành công!");
+                            }
+
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -298,8 +300,8 @@ public class QuanLyTaiKhoan extends javax.swing.JFrame {
     }//GEN-LAST:event_btnChinhSuaActionPerformed
 
     private void bntThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bntThemActionPerformed
-        Form_ThemTaiKhoan form_ThemTaiKhoan = new Form_ThemTaiKhoan();
-       
+        Form_ThemUser form_ThemUser = new Form_ThemUser();
+
         DefaultOption option = new DefaultOption() {
             @Override
             public boolean closeWhenClickOutside() {
@@ -308,14 +310,17 @@ public class QuanLyTaiKhoan extends javax.swing.JFrame {
 
         };
         String actions[] = new String[]{"Hủy", "Lưu"};
-        GlassPanePopup.showPopup(new SimplePopupBorder(form_ThemTaiKhoan, "Thêm tài khoản", actions, (pc, i) -> {
+        GlassPanePopup.showPopup(new SimplePopupBorder(form_ThemUser, "Thêm tài khoản", actions, (pc, i) -> {
             if (i == 1) {
                 //Save
                 try {
-                    userDAO.create(form_ThemTaiKhoan.getDataFromInput());
-                    pc.closePopup();
-                    Notifications.getInstance().show(Notifications.Type.SUCCESS, "Thêm thành công!");
-                    loadData();
+                    if(form_ThemUser.validData() == true){
+                        userDAO.create(form_ThemUser.getDataFromInput());
+                        pc.closePopup();
+                        Notifications.getInstance().show(Notifications.Type.SUCCESS, "Thêm thành công!");
+                        loadData();
+                    }
+
 
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -336,7 +341,6 @@ public class QuanLyTaiKhoan extends javax.swing.JFrame {
 //            }
 //        });
 //    }
-
     private List<User> getSelectedData() {
         List<User> list = new ArrayList<>();
         for (int i = 0; i < table.getRowCount(); i++) {

@@ -7,10 +7,10 @@ import javax.swing.JOptionPane;
 
 
 
-public class Form_QuanLyUser extends javax.swing.JPanel {
+public class Form_User extends javax.swing.JPanel {
 
 
-    public Form_QuanLyUser() {
+    public Form_User() {
         initComponents();
         txtAdmin.setLabelText("Tài khoản");
         passAdmin.setLabelText("Mật khẩu");

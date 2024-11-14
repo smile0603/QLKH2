@@ -23,14 +23,13 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="txtFullName" min="-2" pref="309" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="txtEmail" pref="309" max="32767" attributes="0"/>
-                      <Component id="txtUserName" pref="309" max="32767" attributes="0"/>
-                      <Component id="txtpassWord" alignment="0" max="32767" attributes="0"/>
-                      <Component id="confirmPass" alignment="1" max="32767" attributes="0"/>
-                  </Group>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="txtFullName" pref="309" max="32767" attributes="0"/>
+                  <Component id="txtEmail" pref="309" max="32767" attributes="0"/>
+                  <Component id="txtUserName" pref="309" max="32767" attributes="0"/>
+                  <Component id="txtpassWord" alignment="0" max="32767" attributes="0"/>
+                  <Component id="confirmPass" alignment="1" max="32767" attributes="0"/>
+                  <Component id="lbNotification" alignment="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace pref="40" max="32767" attributes="0"/>
           </Group>
@@ -39,7 +38,9 @@
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace pref="30" max="32767" attributes="0"/>
+              <EmptySpace pref="44" max="32767" attributes="0"/>
+              <Component id="lbNotification" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
               <Component id="txtUserName" min="-2" pref="63" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="txtpassWord" min="-2" pref="63" max="-2" attributes="0"/>
@@ -79,6 +80,16 @@
     <Component class="swing.PasswordField" name="txtpassWord">
     </Component>
     <Component class="swing.PasswordField" name="confirmPass">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbNotification">
+      <Properties>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="12" style="2"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="0" green="0" red="ff" type="rgb"/>
+        </Property>
+      </Properties>
     </Component>
   </SubComponents>
 </Form>
