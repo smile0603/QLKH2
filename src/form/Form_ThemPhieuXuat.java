@@ -1,9 +1,11 @@
 package form;
 
+import DAO.PhieuNhapDAO;
 import DAO.PhieuXuatDAO;
 import entity.KhachHang;
 import entity.NhaCungCap;
 import entity.NhanVien;
+import entity.PhieuNhap;
 import entity.PhieuXuat;
 import entity.SanPham;
 import java.sql.Date;
@@ -72,24 +74,26 @@ public class Form_ThemPhieuXuat extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-    public void loadData(PhieuXuatDAO phieuXuatDAO, PhieuXuat data){
+
+    public void loadData(PhieuXuatDAO phieuXuatDAO, PhieuXuat data) {
         loadDataCbbSanPham(phieuXuatDAO);
         loadDataCbbNhaCungCap(phieuXuatDAO);
         loadDataCbbNhanVien(phieuXuatDAO);
         loadDataCbbKhachHang(phieuXuatDAO);
-        if(data != null){
-            if(data.getNgayXuat()!= null){
+        if (data != null) {
+            if (data.getNgayXuat() != null) {
                 datePicker.setSelectedDate(data.getNgayXuat().toLocalDate());
             }
-            
+
             txtGhiChu.setText(data.getGhiChu());
             txtSoLuong.setText(Integer.toString(data.getSoLuong()));
             txtDonGia.setText(Double.toString(data.getDonGia()));
             txtChietKhau.setText(Double.toString(data.getChietKhau()));
             txtThanhTien.setText(Double.toString(data.getThanhTien()));
-            
+
         }
     }
+
     public PhieuXuat getDataFromInput() {
         SanPham sp = (SanPham) cbbSanPham.getSelectedItem();
         NhaCungCap ncc = (NhaCungCap) cbbNhaCC.getSelectedItem();
@@ -104,18 +108,28 @@ public class Form_ThemPhieuXuat extends javax.swing.JPanel {
         return new PhieuXuat(0, nv, ncc, sp, ngayXuat, soLuong, donGia, chietKhau, thanhTien, ghiChu, kh);
 
     }
-        public boolean validData() {
+    public PhieuNhap getPhieuNhapTheoMa(){
+        PhieuNhapDAO pnDAO = new PhieuNhapDAO();
+        PhieuNhap pn = pnDAO.getSoLuongTheoMaSP();
+        return pn;
+    }
+    
+    public boolean validData() {
         String soLuong = txtSoLuong.getText().trim();
         String donGia = txtDonGia.getText().trim();
         String chietKhau = txtChietKhau.getText().trim();
         Date ngayXuat = datePicker.isDateSelected() ? Date.valueOf(datePicker.getSelectedDate()) : null;
+        PhieuNhap pn = getPhieuNhapTheoMa();
         if (ngayXuat == null) {
-            lbNotification.setText("Vui lòng chọn ngày nhập");
+            lbNotification.setText("Vui lòng chọn ngày xuất");
             return false;
         }
         if (!(soLuong.length() > 0 && soLuong.matches("[1|2|3|4|5|6|7|8|9]+[0-9]"))) {
             lbNotification.setText("Số lượng không hợp lệ");
             return false;
+        }
+        if(pn.getSoLuong() < Integer.parseInt(soLuong)){
+            lbNotification.setText("Số lượng xuất > số lượng nhập");
         }
         if (!(donGia.length() > 0 && donGia.matches("^(\\d+\\.)?\\d+$"))) {
             lbNotification.setText("Đơn giá không hợp lệ");
@@ -128,7 +142,6 @@ public class Form_ThemPhieuXuat extends javax.swing.JPanel {
 
         return true;
     }
-    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -199,14 +212,12 @@ public class Form_ThemPhieuXuat extends javax.swing.JPanel {
                             .addComponent(txtSoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtDonGia, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtChietKhau, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(cbbKH, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(txtThanhTien, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(txtGhiChu, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(35, 35, 35))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 41, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cbbKH, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                            .addComponent(txtGhiChu, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                            .addComponent(txtThanhTien, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(50, 50, 50))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)

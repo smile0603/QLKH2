@@ -4,7 +4,7 @@ public class NhanVien {
     private String maNV;
     private String tenNV;
     private String mail;
-    private int sdt;
+    private String sdt;
 
     public String getMaNV() {
         return maNV;
@@ -30,11 +30,11 @@ public class NhanVien {
         this.mail = mail;
     }
 
-    public int getSdt() {
+    public String getSdt() {
         return sdt;
     }
 
-    public void setSdt(int sdt) {
+    public void setSdt(String sdt) {
         this.sdt = sdt;
     }
 
@@ -42,7 +42,7 @@ public class NhanVien {
     }
 
 
-    public NhanVien(String maNV, String tenNV, String mail, int sdt) {
+    public NhanVien(String maNV, String tenNV, String mail, String sdt) {
         this.maNV = maNV;
         this.tenNV = tenNV;
         this.mail = mail;

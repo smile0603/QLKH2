@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,7 +28,7 @@ public class NhaCungCapDAO {
                 String tenNCC = rs.getString("tenNCC");
                 String diaChi = rs.getString("diaChiNCC");
                 String mailNCC = rs.getString("mailNCC");
-                int sdt = rs.getInt("sdtNCC");
+                String sdt = rs.getString("sdtNCC");
                 NhaCungCap ncc_temp = new NhaCungCap(mncc, tenNCC, diaChi, mailNCC, sdt);
                 ncc = ncc_temp;
                 
@@ -52,7 +51,7 @@ public class NhaCungCapDAO {
             p.setString(1, ncc.getTenNCC());
             p.setString(2, ncc.getDiaChi());
             p.setString(3, ncc.getEmail());
-            p.setInt(4, ncc.getSdtNCC());
+            p.setString(4, ncc.getSdtNCC());
             result = p.executeUpdate();
             
            config.JDBCUtil.closeConnection(con);
@@ -73,7 +72,7 @@ public class NhaCungCapDAO {
             p.setString(1, ncc.getTenNCC());
             p.setString(2, ncc.getDiaChi());
             p.setString(3, ncc.getEmail());
-            p.setInt(4, ncc.getSdtNCC());
+            p.setString(4, ncc.getSdtNCC());
             p.setInt(5, ncc.getMaNCC());
             result = p.executeUpdate();
             
@@ -117,7 +116,7 @@ public class NhaCungCapDAO {
                 String tenNCC = rs.getString("tenNCC");
                 String diaChi = rs.getString("diaChiNCC");
                 String mailNCC = rs.getString("mailNCC");
-                int sdt = rs.getInt("sdtNCC");
+                String sdt = rs.getString("sdtNCC");
 
                 NhaCungCap ncc = new NhaCungCap(mncc, tenNCC, diaChi, mailNCC, sdt);
                 dsNCC.add(ncc);
@@ -146,7 +145,7 @@ public class NhaCungCapDAO {
                 String tenNCC = rs.getString("tenNCC");
                 String diaChi = rs.getString("diaChiNCC");
                 String mailNCC = rs.getString("mailNCC");
-                int sdt = rs.getInt("sdtNCC");
+                String sdt = rs.getString("sdtNCC");
 
                 NhaCungCap ncc = new NhaCungCap(mncc, tenNCC, diaChi, mailNCC, sdt);
                 dsNCC.add(ncc);

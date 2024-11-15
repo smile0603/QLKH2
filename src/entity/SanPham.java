@@ -50,19 +50,21 @@ public class SanPham {
         this.maSP = maSP;
         this.tenSP = tenSP;
     }
-
+    public SanPham(String maSP) {
+        this.maSP = maSP;
+    }
     public SanPham() {
     }
 
     public Object[] toTableRow(int rowNum) {
 
-        return new Object[]{false, rowNum,maSP, this, ghiChu, nhaCungCap};
+        return new Object[]{false, rowNum,maSP, this, nhaCungCap,ghiChu };
     }
 
     public Object[] toTableRow2(int rowNum) {
 
 
-        return new Object[]{rowNum,maSP, this, ghiChu, nhaCungCap};
+        return new Object[]{rowNum,maSP, this, nhaCungCap,ghiChu };
     }
 
     @Override

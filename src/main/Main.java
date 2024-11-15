@@ -3,6 +3,7 @@ package main;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import event.EventMenuSelected;
+import form.Form_KhachHang;
 import form.Form_User;
 
 import form.Form_PhieuNhap;
@@ -29,6 +30,7 @@ public class Main extends javax.swing.JFrame {
     private Form_ThongKe form_ThongKe;
     private Form_User form_Admin;
     private Form_NhanVien form_NhanVien;
+    private Form_KhachHang form_KhachHang;
 
     public Main() {
         FlatRobotoFont.install();
@@ -44,7 +46,7 @@ public class Main extends javax.swing.JFrame {
         form_ThongKe = new Form_ThongKe();
         form_NhanVien = new Form_NhanVien();
         form_Admin = new Form_User();
-        
+        form_KhachHang = new Form_KhachHang();
         menu.initMoving(Main.this);
         menu.addEventMenuSelected(new EventMenuSelected() {
             @Override
@@ -60,20 +62,18 @@ public class Main extends javax.swing.JFrame {
 
                 } else if (index == 4) {
                     setForm(formNhaCungCap);
-                } 
-                else if (index == 5) {
+                } else if (index == 5) {
                     setForm(form_NhanVien);
-                }
-                else if (index == 7) {
+                } else if (index == 6) {
+                    setForm(form_KhachHang);
+                } else if (index == 7) {
                     setForm(form_Admin);
-                    
-                    
-                }
-                else if (index == 8) {
+
+                } else if (index == 9) {
                     if (JOptionPane.showConfirmDialog(null, "Bạn có muốn thoát?", "Thoát",
                             JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                         // yes option
-                        
+
                         System.exit(0);
                     } else {
                         // no option

@@ -22,7 +22,8 @@ public class NhanVienDAO {
                 String maNV = rs.getString("maNV");
                 String tenNV = rs.getString("tenNV");
                 String mail = rs.getString("mail");
-                int sdt = rs.getInt("sdt");
+                //int sdt = rs.getInt("sdt");
+                String sdt = rs.getString("sdt");
                 NhanVien nv = new NhanVien(maNV, tenNV, mail, sdt);
                 dsNV.add(nv);
             }
@@ -46,7 +47,8 @@ public class NhanVienDAO {
             p.setString(1, nv.getMaNV());
             p.setString(2, nv.getTenNV());
             p.setString(3, nv.getMail());
-            p.setInt(4, nv.getSdt());
+            //p.setInt(4, nv.getSdt());
+            p.setString(4, nv.getSdt());
             result = p.executeUpdate();
 
             config.JDBCUtil.closeConnection(con);
@@ -67,7 +69,8 @@ public class NhanVienDAO {
 
             p.setString(1, nv.getTenNV());
             p.setString(2, nv.getMail());
-            p.setInt(3, nv.getSdt());
+            //p.setInt(3, nv.getSdt());
+            p.setString(3, nv.getSdt());
             p.setString(4, nv.getMaNV());
             result = p.executeUpdate();
 
@@ -110,7 +113,7 @@ public class NhanVienDAO {
                 String maNV = rs.getString("maNV");
                 String tenNV = rs.getString("tenNV");
                 String mail = rs.getString("mail");
-                int sdt = rs.getInt("sdt");
+                String sdt = rs.getString("sdt");
                 NhanVien nv = new NhanVien(maNV, tenNV, mail, sdt);
                 dsNV.add(nv);
 

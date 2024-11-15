@@ -23,7 +23,7 @@ public class KhachHangDAO {
                 String tenKH = rs.getString("tenKH");
                 String mail = rs.getString("email");
                 String diaChi = rs.getString("diaChi");
-                int sdt = rs.getInt("sdt");
+                String sdt = rs.getString("sdt");
 
                 KhachHang kh = new KhachHang(maKH, tenKH, mail,diaChi, sdt);
                 dsKH.add(kh);
@@ -47,7 +47,7 @@ public class KhachHangDAO {
             p.setString(1, kh.getMaKH());
             p.setString(2, kh.getTenKH());
             p.setString(3, kh.getEmail());
-            p.setInt(4, kh.getSdt());
+            p.setString(4, kh.getSdt());
             p.setString(5, kh.getDiaChi());
             result = p.executeUpdate();
 
@@ -69,7 +69,7 @@ public class KhachHangDAO {
 
             p.setString(1, kh.getTenKH());
             p.setString(2, kh.getEmail());
-            p.setInt(3, kh.getSdt());
+            p.setString(3, kh.getSdt());
             p.setString(4, kh.getDiaChi());
             p.setString(5, kh.getMaKH());
             result = p.executeUpdate();
@@ -99,20 +99,20 @@ public class KhachHangDAO {
     public ArrayList<KhachHang> search(String txtSearch) {
         ArrayList<KhachHang> dsKH = new ArrayList<>();
         Connection con = (Connection) config.JDBCUtil.getConnection();
-        String sql = "SELECT * FROM tb_KhachHang WHERE (maKH LIKE ? or tenKH LIKE ? or sdtKH LIKE ?)";
+        String sql = "SELECT * FROM tb_KhachHang WHERE (maKH LIKE ? or tenKH LIKE ?)";
 
         try {
             PreparedStatement p = (PreparedStatement) con.prepareStatement(sql);
             p.setString(1, "%" + txtSearch + "%");
             p.setString(2, "%" + txtSearch + "%");
-            p.setString(3, "%" + txtSearch + "%");
+
 
             ResultSet rs = p.executeQuery();
             while (rs.next()) {
                 String maKH = rs.getString("maKH");
                 String tenKH = rs.getString("tenKH");
                 String email = rs.getString("email");
-                int sdt = rs.getInt("sdt");
+                String sdt = rs.getString("sdt");
                 String diaChi = rs.getString("diaChi");
                 KhachHang kh = new KhachHang(maKH, tenKH, email, diaChi, sdt);
                 dsKH.add(kh);

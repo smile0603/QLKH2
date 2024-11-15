@@ -19,7 +19,7 @@ public class Form_ThemNhaCungCap extends javax.swing.JPanel {
         String tenNCC = txtTenNCC.getText().trim();
         String diaChi = txtdiaChiNCC.getText().trim();
         String emailNCC = txtEmailNCC.getText().trim();
-        int sdtNCC = Integer.parseInt(txtSdtNCC.getText().trim());
+        String sdtNCC = txtSdtNCC.getText().trim();
         NhaCungCap ncc = new NhaCungCap(0, tenNCC, diaChi, emailNCC, sdtNCC);
         return ncc;
 
@@ -30,7 +30,7 @@ public class Form_ThemNhaCungCap extends javax.swing.JPanel {
             txtTenNCC.setText(ncc.getTenNCC());
             txtdiaChiNCC.setText(ncc.getDiaChi());
             txtEmailNCC.setText(ncc.getEmail());
-            txtSdtNCC.setText(Integer.toString(ncc.getSdtNCC()));
+            txtSdtNCC.setText(ncc.getSdtNCC());
         }
     }
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -95,7 +95,7 @@ public class Form_ThemNhaCungCap extends javax.swing.JPanel {
             lbNotification.setText("Địa chỉ không hợp lệ");
             return false;
         }
-        if (!(sdtNCC.length() > 0 && sdtNCC.matches("([0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\\b"))) {
+        if (!(sdtNCC.length() > 0 && sdtNCC.matches("([\\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\\b"))) {
             lbNotification.setText("Số điện thoại không hợp lệ");
             return false;
         }

@@ -100,14 +100,14 @@ public class QuanLySanPham extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Chọn", "#", "Mã NCC", "Tên NCC", "Địa chỉ", "Email", "Số điện thoại"
+                "Chọn", "#", "Mã SP", "Tên SP", "Tên NCC", "Ghi chú"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
+                java.lang.Boolean.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class
             };
             boolean[] canEdit = new boolean [] {
-                true, false, false, false, false, false, false
+                true, false, false, false, false, true
             };
 
             public Class getColumnClass(int columnIndex) {

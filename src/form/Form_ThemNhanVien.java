@@ -18,7 +18,8 @@ public class Form_ThemNhanVien extends javax.swing.JPanel {
         String maNV = txtMaNV.getText().trim();
         String tenNV = txtTenNV.getText().trim();
         String email = txtEmail.getText().trim();
-        int sdt = Integer.parseInt(txtSDT.getText().trim());
+        //int sdt = Integer.parseInt(txtSDT.getText().trim());
+        String sdt = txtSDT.getText().trim();
         return new NhanVien(maNV, tenNV, email, sdt);
 
 
@@ -29,7 +30,8 @@ public class Form_ThemNhanVien extends javax.swing.JPanel {
             txtMaNV.setText(nv.getMaNV());
             txtTenNV.setText(nv.getTenNV());
             txtEmail.setText(nv.getMail());
-            txtSDT.setText(Integer.toString(nv.getSdt()));
+            //txtSDT.setText(Integer.toString(nv.getSdt()));
+            txtSDT.setText(nv.getSdt());
         }
     }
 
@@ -51,7 +53,7 @@ public class Form_ThemNhanVien extends javax.swing.JPanel {
             return false;
         }
         
-        if (!(sdt.length() > 0 && sdt.matches("([0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\\b"))) {
+        if (!(sdt.length() > 0 && sdt.matches("([\\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\\b"))) {
             lbNotification.setText("Số điện thoại không hợp lệ");
             return false;
         }

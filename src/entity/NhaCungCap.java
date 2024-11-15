@@ -6,7 +6,7 @@ public class NhaCungCap {
     private String tenNCC;
     private String diaChi;
     private String email;
-    private int sdtNCC;
+    private String sdtNCC;
 
     public int getMaNCC() {
         return maNCC;
@@ -40,18 +40,18 @@ public class NhaCungCap {
         this.email = email;
     }
 
-    public int getSdtNCC() {
+    public String getSdtNCC() {
         return sdtNCC;
     }
 
-    public void setSdtNCC(int sdtNCC) {
+    public void setSdtNCC(String sdtNCC) {
         this.sdtNCC = sdtNCC;
     }
 
     public NhaCungCap() {
     }
 
-    public NhaCungCap(int maNCC, String tenNCC, String diaChi, String email, int sdtNCC) {
+    public NhaCungCap(int maNCC, String tenNCC, String diaChi, String email, String sdtNCC) {
         this.maNCC = maNCC;
         this.tenNCC = tenNCC;
         this.diaChi = diaChi;

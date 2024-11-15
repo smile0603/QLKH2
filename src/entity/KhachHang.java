@@ -6,7 +6,7 @@ public class KhachHang {
     private String tenKH;
     private String email;
     private String diaChi;
-
+    private String sdt;
     public String getDiaChi() {
         return diaChi;
     }
@@ -14,7 +14,7 @@ public class KhachHang {
     public void setDiaChi(String diaChi) {
         this.diaChi = diaChi;
     }
-    private int sdt;
+    
 
     public String getMaKH() {
         return maKH;
@@ -40,11 +40,11 @@ public class KhachHang {
         this.email = email;
     }
 
-    public int getSdt() {
+    public String getSdt() {
         return sdt;
     }
 
-    public void setSdt(int sdt) {
+    public void setSdt(String sdt) {
         this.sdt = sdt;
     }
 
@@ -56,14 +56,19 @@ public class KhachHang {
         this.tenKH = tenKH;
     }
 
-    public KhachHang(String maKH, String tenKH, String email, String diaChi, int sdt) {
+    public KhachHang(String maKH, String tenKH, String email, String diaChi, String sdt) {
         this.maKH = maKH;
         this.tenKH = tenKH;
         this.email = email;
         this.diaChi = diaChi;
         this.sdt = sdt;
     }
-
+    public Object[] toTableRow(int rowNum){
+        return new Object[]{false,rowNum,maKH,this,diaChi,email,sdt};
+    }
+    public Object[] toTableRow2(int rowNum){
+        return new Object[]{rowNum,maKH,this,email,diaChi,sdt};
+    }
     @Override
     public String toString() {
         return tenKH;

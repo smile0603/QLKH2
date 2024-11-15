@@ -1,10 +1,12 @@
 package entity;
 
+import java.math.RoundingMode;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.text.NumberFormat;
+import java.util.Locale;
 public class PhieuNhap {
 
     public int getMaPN() {
@@ -99,7 +101,10 @@ public class PhieuNhap {
 
     public PhieuNhap() {
     }
-
+    public PhieuNhap(SanPham sanPham, int soLuong) {
+        this.sanPham = sanPham;
+        this.soLuong = soLuong;
+    }
     public PhieuNhap(int maPN, SanPham sanPham, NhaCungCap nhaCungCap,NhanVien nhanVien , Date ngayNhap, int soLuong, double donGia, double chietKhau, double thanhTien, String ghiChu) {
         this.maPN = maPN;
         this.sanPham = sanPham;
@@ -114,17 +119,19 @@ public class PhieuNhap {
     }
     public Object[] toTableRow(int rowNum){
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        NumberFormat nf = new DecimalFormat("$ #, ##0.##");
+        Locale locale = new Locale("vi","VN");
+        NumberFormat format = NumberFormat.getCurrencyInstance(locale);
+        format.setRoundingMode(RoundingMode.HALF_UP);
         
-        
-        return new Object[]{false, rowNum,this,sanPham,nhaCungCap,nhanVien,ngayNhap == null ? "":df.format(ngayNhap),soLuong,donGia,thanhTien,ghiChu};
+        return new Object[]{false, rowNum,this,sanPham,nhaCungCap,nhanVien,ngayNhap == null ? "":df.format(ngayNhap),soLuong,format.format(donGia),format.format(thanhTien),ghiChu};
     }
     public Object[] toTableRow2(int rowNum){
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-        NumberFormat nf = new DecimalFormat("$ #, ##0.##");
+        Locale locale = new Locale("vi","VN");
+        NumberFormat format = NumberFormat.getCurrencyInstance(locale);
+        format.setRoundingMode(RoundingMode.HALF_UP);
         
-        
-        return new Object[]{rowNum,this,sanPham,nhaCungCap,nhanVien,ngayNhap == null ? "":df.format(ngayNhap),soLuong,donGia,chietKhau,thanhTien,ghiChu};
+        return new Object[]{rowNum,this,sanPham,nhaCungCap,nhanVien,ngayNhap == null ? "":df.format(ngayNhap),soLuong,format.format(donGia),chietKhau,format.format(thanhTien),ghiChu};
     }
 
     @Override

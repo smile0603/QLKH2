@@ -1,5 +1,6 @@
 package DAO;
 
+import DAO.NhaCungCapDAO;
 import entity.NhaCungCap;
 import entity.PhieuNhap;
 import entity.SanPham;
@@ -156,6 +157,31 @@ public class PhieuNhapDAO {
         return dsPhieuNhap;
         
     }
+    public PhieuNhap getSoLuongTheoMaSP(){
+        Connection con = (Connection) config.JDBCUtil.getConnection();
+        PhieuNhap phieuNhap = null;
+        String sql = "Select tb_PhieuNhap.maSP,sum(tb_PhieuNhap.soLuongNhap) as tongNhap " +
+                     "from tb_PhieuNhap " +
+                     "group by tb_PhieuNhap.maSP";
+
+        try {
+            PreparedStatement p = (PreparedStatement) con.prepareStatement(sql);
+            
+            ResultSet rs = p.executeQuery();
+            while(rs.next()){
+                String maSP = rs.getString("maSP");
+                int soLuong = rs.getInt("tongNhap");
+                SanPham sp = new SanPham(maSP);
+                phieuNhap = new PhieuNhap(sp, soLuong);
+            }
+            config.JDBCUtil.closeConnection(con);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(NhaCungCapDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return phieuNhap;
+    }
+    
     public ArrayList<PhieuNhap> search(String search){
         ArrayList<PhieuNhap> dsPhieuNhap = new ArrayList<>();
         Connection con = (Connection) config.JDBCUtil.getConnection();

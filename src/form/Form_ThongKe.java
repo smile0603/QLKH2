@@ -1,4 +1,5 @@
 package form;
+
 import DAO.ThongKeDAO;
 import java.sql.Date;
 import com.formdev.flatlaf.FlatClientProperties;
@@ -30,7 +31,7 @@ public class Form_ThongKe extends javax.swing.JPanel {
         datePickerToTK.setCloseAfterSelected(true);
         datePickerToTK.setEditor(txtDateTo);
     }
-    
+
     private void loadData() {
         ThongKeDAO thongKeDAO = new ThongKeDAO();
         Date dateFrom = datePickerFromTK.isDateSelected() ? Date.valueOf(datePickerFromTK.getSelectedDate()) : null;
@@ -50,6 +51,7 @@ public class Form_ThongKe extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -67,9 +69,10 @@ public class Form_ThongKe extends javax.swing.JPanel {
         txtDateTo = new javax.swing.JFormattedTextField();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        buttonAction1 = new swing.ButtonAction();
+        btnCheck = new swing.ButtonAction();
         scroll = new javax.swing.JScrollPane();
         tableThongKe = new swing.TableDesign();
+        lbNotification = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         scroll1 = new javax.swing.JScrollPane();
         tableDesign1 = new swing.TableDesign();
@@ -97,11 +100,11 @@ public class Form_ThongKe extends javax.swing.JPanel {
 
         jLabel2.setText("Đến ngày :");
 
-        buttonAction1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/search-interface-symbol.png"))); // NOI18N
-        buttonAction1.setText("Kiểm tra");
-        buttonAction1.addActionListener(new java.awt.event.ActionListener() {
+        btnCheck.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/search-interface-symbol.png"))); // NOI18N
+        btnCheck.setText("Kiểm tra");
+        btnCheck.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonAction1ActionPerformed(evt);
+                btnCheckActionPerformed(evt);
             }
         });
 
@@ -118,21 +121,29 @@ public class Form_ThongKe extends javax.swing.JPanel {
         ));
         scroll.setViewportView(tableThongKe);
 
+        lbNotification.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        lbNotification.setForeground(new java.awt.Color(255, 0, 0));
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtDateFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtDateTo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(buttonAction1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtDateFrom, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtDateTo, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnCheck, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(181, 181, 181)
+                        .addComponent(lbNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(425, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
@@ -143,14 +154,16 @@ public class Form_ThongKe extends javax.swing.JPanel {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addContainerGap()
+                .addComponent(lbNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtDateFrom, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtDateTo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
-                    .addComponent(buttonAction1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(416, Short.MAX_VALUE))
+                    .addComponent(btnCheck, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(403, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel2Layout.createSequentialGroup()
                     .addGap(56, 56, 56)
@@ -240,18 +253,20 @@ public class Form_ThongKe extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton5)
-                .addGap(18, 18, 18))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton5)
+                        .addGap(18, 18, 18))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -267,14 +282,34 @@ public class Form_ThongKe extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void buttonAction1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAction1ActionPerformed
+    private void btnCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckActionPerformed
         // TODO add your handling code here:
-        loadData();
-    }//GEN-LAST:event_buttonAction1ActionPerformed
+        if (validData() == true) {
+            loadData();
+        }
 
+    }//GEN-LAST:event_btnCheckActionPerformed
+    public boolean validData() {
+
+//        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+//        String ngayNhap = df.format(datePicker.isDateSelected() ? Date.valueOf(datePicker.getSelectedDate()) : null);
+        Date dateFrom = datePickerFromTK.isDateSelected() ? Date.valueOf(datePickerFromTK.getSelectedDate()) : null;
+        Date dateTo = datePickerToTK.isDateSelected() ? Date.valueOf(datePickerToTK.getSelectedDate()) : null;
+
+        if (dateFrom == null || dateTo == null) {
+            lbNotification.setText("Vui lòng chọn ngày");
+            return false;
+        }
+        if(dateFrom.after(dateTo)){
+            lbNotification.setText("Không hợp lệ(Từ ngày < Đến ngày)");
+            return false;
+        }
+
+        return true;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private swing.ButtonAction buttonAction1;
+    private swing.ButtonAction btnCheck;
     private swing.ButtonAction buttonAction2;
     private raven.datetime.component.date.DatePicker datePickerFromTK;
     private raven.datetime.component.date.DatePicker datePickerToTK;
@@ -287,6 +322,7 @@ public class Form_ThongKe extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
+    private javax.swing.JLabel lbNotification;
     private swing.MaterialTabbed materialTabbed;
     private javax.swing.JScrollPane scroll;
     private javax.swing.JScrollPane scroll1;
