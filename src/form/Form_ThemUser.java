@@ -34,15 +34,30 @@ public class Form_ThemUser extends javax.swing.JPanel {
             txtEmail.setText(data.getMail());
         }
     }
-
+    public boolean checkUserName(String userName){
+        UserDAO userDAO = new UserDAO();
+        try {
+            for (User u : userDAO.getAllUser()) {
+                if(u.getUserName().trim().equals(userName.trim()))
+                return true;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     public boolean validData() {
         String userName = txtUserName.getText().trim();
         String fullName = txtFullName.getText().trim();
         String txtpassWord = String.valueOf(this.txtpassWord.getPassword());
         String email = txtEmail.getText().trim();
-
+        
         if (!(userName.length() > 0 && userName.matches("[A-Za-z0-9_-]{6,12}$"))) {
             lbNotification.setText("Tài khoản gồm 6-12 kí tự và không chứa khoảng trắng");
+            return false;
+        }
+        if(checkUserName(userName) == true){
+            lbNotification.setText("Tài khoản đã tồn tại");
             return false;
         }
         if (!(txtpassWord.length() > 0 && txtpassWord.matches("[a-z0-9_-]{6,12}$"))) {

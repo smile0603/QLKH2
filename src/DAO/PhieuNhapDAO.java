@@ -157,16 +157,17 @@ public class PhieuNhapDAO {
         return dsPhieuNhap;
         
     }
-    public PhieuNhap getSoLuongTheoMaSP(){
+    public PhieuNhap getSoLuongTheoMaSP(String search){
         Connection con = (Connection) config.JDBCUtil.getConnection();
         PhieuNhap phieuNhap = null;
         String sql = "Select tb_PhieuNhap.maSP,sum(tb_PhieuNhap.soLuongNhap) as tongNhap " +
-                     "from tb_PhieuNhap " +
+                     "from tb_PhieuNhap "+
+                     "where tb_PhieuNhap.maSP like ? " +
                      "group by tb_PhieuNhap.maSP";
 
         try {
             PreparedStatement p = (PreparedStatement) con.prepareStatement(sql);
-            
+            p.setString(1, "%" + search + "%");
             ResultSet rs = p.executeQuery();
             while(rs.next()){
                 String maSP = rs.getString("maSP");

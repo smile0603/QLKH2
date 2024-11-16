@@ -108,29 +108,41 @@ public class Form_ThemPhieuXuat extends javax.swing.JPanel {
         return new PhieuXuat(0, nv, ncc, sp, ngayXuat, soLuong, donGia, chietKhau, thanhTien, ghiChu, kh);
 
     }
-    public PhieuNhap getPhieuNhapTheoMa(){
-        PhieuNhapDAO pnDAO = new PhieuNhapDAO();
-        PhieuNhap pn = pnDAO.getSoLuongTheoMaSP();
-        return pn;
+    public String getMaSPFromCbb(){
+        SanPham sp = (SanPham) cbbSanPham.getSelectedItem();
+        return sp.getMaSP();
     }
-    
+
+    public PhieuNhap getPhieuNhapTheoMa(String maSP) {
+        PhieuNhapDAO pnDAO = new PhieuNhapDAO();
+        return pnDAO.getSoLuongTheoMaSP(maSP);
+        
+    }
+
     public boolean validData() {
         String soLuong = txtSoLuong.getText().trim();
         String donGia = txtDonGia.getText().trim();
         String chietKhau = txtChietKhau.getText().trim();
         Date ngayXuat = datePicker.isDateSelected() ? Date.valueOf(datePicker.getSelectedDate()) : null;
-        PhieuNhap pn = getPhieuNhapTheoMa();
+        String maSP = getMaSPFromCbb();
+        PhieuNhap pn = getPhieuNhapTheoMa(maSP);
+        if(pn == null){
+            lbNotification.setText("Chưa nhập sản phẩm này");
+            return false;  
+        }
         if (ngayXuat == null) {
             lbNotification.setText("Vui lòng chọn ngày xuất");
             return false;
         }
-        if (!(soLuong.length() > 0 && soLuong.matches("[1|2|3|4|5|6|7|8|9]+[0-9]"))) {
+        if (!(soLuong.length() > 0 && soLuong.matches("[1|2|3|4|5|6|7|8|9]+[0-9]+"))) {
             lbNotification.setText("Số lượng không hợp lệ");
             return false;
         }
-        if(pn.getSoLuong() < Integer.parseInt(soLuong)){
-            lbNotification.setText("Số lượng xuất > số lượng nhập");
+        if (Integer.parseInt(soLuong) > pn.getSoLuong()) {
+            lbNotification.setText("Số lượng xuất phải thấp hơn số lượng nhập");
+            return false;
         }
+
         if (!(donGia.length() > 0 && donGia.matches("^(\\d+\\.)?\\d+$"))) {
             lbNotification.setText("Đơn giá không hợp lệ");
             return false;
