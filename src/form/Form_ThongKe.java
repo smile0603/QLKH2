@@ -5,6 +5,7 @@ import java.sql.Date;
 import com.formdev.flatlaf.FlatClientProperties;
 import entity.ThongKeNgay;
 import helper.JTableExport;
+import helper.writePDF;
 import java.io.IOException;
 import java.util.List;
 import java.util.logging.Level;
@@ -12,7 +13,9 @@ import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 
 public class Form_ThongKe extends javax.swing.JPanel {
+
     JTableExport jTableExport = new JTableExport();
+
     public Form_ThongKe() {
         initComponents();
         init();
@@ -63,7 +66,7 @@ public class Form_ThongKe extends javax.swing.JPanel {
         datePickerFromTK = new raven.datetime.component.date.DatePicker();
         datePickerToTK = new raven.datetime.component.date.DatePicker();
         btnExportExcel = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnExportPDF = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         materialTabbed = new swing.MaterialTabbed();
@@ -88,16 +91,21 @@ public class Form_ThongKe extends javax.swing.JPanel {
 
         btnExportExcel.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         btnExportExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/excel.png"))); // NOI18N
-        btnExportExcel.setText("Print Excel");
+        btnExportExcel.setText("Export Excel");
         btnExportExcel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnExportExcelActionPerformed(evt);
             }
         });
 
-        jButton4.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pdf.png"))); // NOI18N
-        jButton4.setText("Print PDF");
+        btnExportPDF.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        btnExportPDF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pdf.png"))); // NOI18N
+        btnExportPDF.setText("ExportPDF");
+        btnExportPDF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportPDFActionPerformed(evt);
+            }
+        });
 
         jButton5.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
         jButton5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/import.png"))); // NOI18N
@@ -269,7 +277,7 @@ public class Form_ThongKe extends javax.swing.JPanel {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnExportExcel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton4)
+                        .addComponent(btnExportPDF)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton5)
                         .addGap(18, 18, 18))
@@ -283,7 +291,7 @@ public class Form_ThongKe extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnExportExcel)
-                    .addComponent(jButton4)
+                    .addComponent(btnExportPDF)
                     .addComponent(jButton5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -300,14 +308,32 @@ public class Form_ThongKe extends javax.swing.JPanel {
     }//GEN-LAST:event_btnCheckActionPerformed
 
     private void btnExportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportExcelActionPerformed
-        try {
-            // TODO add your handling code here:
-            jTableExport.exportJTableToExcel(tableThongKe);
-        } catch (IOException ex) {
-            Logger.getLogger(Form_ThongKe.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
+        if (validData() == false) {
+            lbNotification.setText("Vui lòng tạo phiếu thống kê");
+        } else {
+            try {
+                // TODO add your handling code here:
+                jTableExport.exportJTableToExcel(tableThongKe);
+            } catch (IOException ex) {
+                Logger.getLogger(Form_ThongKe.class.getName()).log(Level.SEVERE, null, ex);
+            }
+      }
     }//GEN-LAST:event_btnExportExcelActionPerformed
+
+    private void btnExportPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportPDFActionPerformed
+        // TODO add your handling code here:
+        if (validData() == false) {
+            lbNotification.setText("Vui lòng tạo phiếu thống kê");
+        } else {
+            Date dateFrom = datePickerFromTK.isDateSelected() ? Date.valueOf(datePickerFromTK.getSelectedDate()) : null;
+            Date dateTo = datePickerToTK.isDateSelected() ? Date.valueOf(datePickerToTK.getSelectedDate()) : null;
+            writePDF write = new writePDF();
+            // TODO add your handling code here:
+            write.writeThongKe(dateFrom, dateTo);
+        }
+
+
+    }//GEN-LAST:event_btnExportPDFActionPerformed
     public boolean validData() {
 
 //        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
@@ -319,7 +345,7 @@ public class Form_ThongKe extends javax.swing.JPanel {
             lbNotification.setText("Vui lòng chọn ngày");
             return false;
         }
-        if(dateFrom.after(dateTo)){
+        if (dateFrom.after(dateTo)) {
             lbNotification.setText("Không hợp lệ(Từ ngày < Đến ngày)");
             return false;
         }
@@ -330,10 +356,10 @@ public class Form_ThongKe extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private swing.ButtonAction btnCheck;
     private javax.swing.JButton btnExportExcel;
+    private javax.swing.JButton btnExportPDF;
     private swing.ButtonAction buttonAction2;
     private raven.datetime.component.date.DatePicker datePickerFromTK;
     private raven.datetime.component.date.DatePicker datePickerToTK;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

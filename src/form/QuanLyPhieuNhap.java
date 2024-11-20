@@ -6,10 +6,16 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 import entity.PhieuNhap;
+import helper.JTableExport;
+import helper.writePDF;
+import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JLabel;
+import javax.swing.JTable;
 
 import javax.swing.border.EmptyBorder;
 import raven.popup.DefaultOption;
@@ -93,6 +99,8 @@ public class QuanLyPhieuNhap extends javax.swing.JFrame {
         btnThem = new swing.ButtonAction();
         btnChinhSua = new swing.ButtonAction();
         btnXoa = new swing.ButtonAction();
+        btnExportExcel = new javax.swing.JButton();
+        btnExportPDF = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -126,10 +134,10 @@ public class QuanLyPhieuNhap extends javax.swing.JFrame {
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
-                .addGap(0, 0, 0)
-                .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
-                .addGap(14, 14, 14))
+            .addGroup(panelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         lbTitle.setText("Tìm kiếm");
@@ -164,6 +172,22 @@ public class QuanLyPhieuNhap extends javax.swing.JFrame {
             }
         });
 
+        btnExportExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/excel24pix.png"))); // NOI18N
+        btnExportExcel.setText("Export Excel");
+        btnExportExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportExcelActionPerformed(evt);
+            }
+        });
+
+        btnExportPDF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pdf24pix.png"))); // NOI18N
+        btnExportPDF.setText("Export PDF");
+        btnExportPDF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportPDFActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -186,6 +210,12 @@ public class QuanLyPhieuNhap extends javax.swing.JFrame {
                                 .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addGap(30, 30, 30))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnExportExcel)
+                .addGap(18, 18, 18)
+                .addComponent(btnExportPDF)
+                .addGap(75, 75, 75))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,8 +229,12 @@ public class QuanLyPhieuNhap extends javax.swing.JFrame {
                     .addComponent(btnChinhSua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(25, 25, 25))
+                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnExportExcel)
+                    .addComponent(btnExportPDF))
+                .addContainerGap(19, Short.MAX_VALUE))
         );
 
         pack();
@@ -267,14 +301,14 @@ public class QuanLyPhieuNhap extends javax.swing.JFrame {
                     if (i == 1) {
                         //edit
                         try {
-                            if(form_ThemPhieuNhap.validData() == true){
+                            if (form_ThemPhieuNhap.validData() == true) {
                                 PhieuNhap dataEdit = form_ThemPhieuNhap.getDataFromInput();
                                 dataEdit.setMaPN(data.getMaPN());
                                 phieuNhapDAO.edit(dataEdit);
                                 pc.closePopup();
                                 Notifications.getInstance().show(Notifications.Type.SUCCESS, "Chỉnh sửa phiếu nhập thành công");
                             }
-                            
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -326,6 +360,35 @@ public class QuanLyPhieuNhap extends javax.swing.JFrame {
             Notifications.getInstance().show(Notifications.Type.WARNING, "Chọn phiếu nhập cần xóa");
         }
     }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnExportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportExcelActionPerformed
+        // TODO add your handling code here:
+        JTableExport jTableExport = new JTableExport();
+        
+        try {
+            jTableExport.exportJTableToExcel(table);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+    }//GEN-LAST:event_btnExportExcelActionPerformed
+
+    private void btnExportPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportPDFActionPerformed
+        // TODO add your handling code here:
+        List<PhieuNhap> list = getSelectedData();
+        writePDF wrPDF = new writePDF();
+        if (!list.isEmpty()) {
+
+            for (PhieuNhap pn : list) {
+                int ma = pn.getMaPN();
+                wrPDF.writePhieuNhap(ma);
+            }
+        } else {
+            Notifications.getInstance().show(Notifications.Type.WARNING, "Chọn phiếu nhập cần in");
+        }
+
+
+    }//GEN-LAST:event_btnExportPDFActionPerformed
     private List<PhieuNhap> getSelectedData() {
         List<PhieuNhap> list = new ArrayList<>();
         for (int i = 0; i < table.getRowCount(); i++) {
@@ -381,6 +444,8 @@ public class QuanLyPhieuNhap extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private swing.ButtonAction btnChinhSua;
+    private javax.swing.JButton btnExportExcel;
+    private javax.swing.JButton btnExportPDF;
     private swing.ButtonAction btnThem;
     private swing.ButtonAction btnXoa;
     private javax.swing.JLabel lbTitle;

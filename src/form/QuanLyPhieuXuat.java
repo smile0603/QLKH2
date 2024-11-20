@@ -6,7 +6,10 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import entity.PhieuXuat;
+import helper.JTableExport;
+import helper.writePDF;
 import java.awt.Font;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JLabel;
@@ -93,6 +96,8 @@ public class QuanLyPhieuXuat extends javax.swing.JFrame {
         btnXoa = new swing.ButtonAction();
         txtSearch = new javax.swing.JTextField();
         lbTitle = new javax.swing.JLabel();
+        btnExportExcel = new javax.swing.JButton();
+        btnExportPDF = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -122,7 +127,9 @@ public class QuanLyPhieuXuat extends javax.swing.JFrame {
         );
         panelLayout.setVerticalGroup(
             panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scroll, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 511, Short.MAX_VALUE)
+            .addGroup(panelLayout.createSequentialGroup()
+                .addComponent(scroll, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         btnThem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/add.png"))); // NOI18N
@@ -157,6 +164,22 @@ public class QuanLyPhieuXuat extends javax.swing.JFrame {
 
         lbTitle.setText("Tìm kiếm");
 
+        btnExportExcel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/excel24pix.png"))); // NOI18N
+        btnExportExcel.setText("Export Excel");
+        btnExportExcel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportExcelActionPerformed(evt);
+            }
+        });
+
+        btnExportPDF.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/pdf24pix.png"))); // NOI18N
+        btnExportPDF.setText("Export PDF");
+        btnExportPDF.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportPDFActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -176,6 +199,12 @@ public class QuanLyPhieuXuat extends javax.swing.JFrame {
                         .addGap(15, 15, 15)
                         .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(30, 30, 30))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnExportExcel)
+                .addGap(18, 18, 18)
+                .addComponent(btnExportPDF)
+                .addGap(75, 75, 75))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(30, 30, 30)
@@ -193,12 +222,16 @@ public class QuanLyPhieuXuat extends javax.swing.JFrame {
                     .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnChinhSua, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(539, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnExportExcel)
+                    .addComponent(btnExportPDF))
+                .addGap(25, 25, 25))
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(77, 77, 77)
                     .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(27, Short.MAX_VALUE)))
+                    .addContainerGap(71, Short.MAX_VALUE)))
         );
 
         pack();
@@ -225,12 +258,12 @@ public class QuanLyPhieuXuat extends javax.swing.JFrame {
             if (i == 1) {
                 //Save
                 try {
-                    if(form_ThemPhieuXuat.validData() == true){
+                    if (form_ThemPhieuXuat.validData() == true) {
                         phieuXuatDAO.create(form_ThemPhieuXuat.getDataFromInput());
                         pc.closePopup();
                         Notifications.getInstance().show(Notifications.Type.SUCCESS, "Tạo phiếu xuất thành công");
                     }
-                    
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -260,14 +293,14 @@ public class QuanLyPhieuXuat extends javax.swing.JFrame {
                     if (i == 1) {
                         //edit
                         try {
-                            if(form_ThemPhieuXuat.validData() == true){
+                            if (form_ThemPhieuXuat.validData() == true) {
                                 PhieuXuat dataEdit = form_ThemPhieuXuat.getDataFromInput();
                                 dataEdit.setMaPX(data.getMaPX());
                                 phieuXuatDAO.edit(dataEdit);
                                 pc.closePopup();
                                 Notifications.getInstance().show(Notifications.Type.SUCCESS, "Chỉnh sửa phiếu xuất thành công");
                             }
-                            
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -324,6 +357,32 @@ public class QuanLyPhieuXuat extends javax.swing.JFrame {
         // TODO add your handling code here:
         searchData(txtSearch.getText().trim());
     }//GEN-LAST:event_txtSearchKeyReleased
+
+    private void btnExportPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportPDFActionPerformed
+        // TODO add your handling code here:
+        List<PhieuXuat> list = getSelectedData();
+        writePDF wrPDF = new writePDF();
+        if (!list.isEmpty()) {
+
+            for (PhieuXuat px : list) {
+                int ma = px.getMaPX();
+                wrPDF.writePhieuXuat(ma);
+            }
+        } else {
+            Notifications.getInstance().show(Notifications.Type.WARNING, "Chọn phiếu xuất cần in");
+        }
+    }//GEN-LAST:event_btnExportPDFActionPerformed
+
+    private void btnExportExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportExcelActionPerformed
+        // TODO add your handling code here:
+        JTableExport jTableExport = new JTableExport();
+
+        try {
+            jTableExport.exportJTableToExcel(table);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }//GEN-LAST:event_btnExportExcelActionPerformed
     private void loadData() {
         try {
             DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -338,6 +397,7 @@ public class QuanLyPhieuXuat extends javax.swing.JFrame {
         } catch (Exception e) {
         }
     }
+
     private List<PhieuXuat> getSelectedData() {
         List<PhieuXuat> list = new ArrayList<>();
         for (int i = 0; i < table.getRowCount(); i++) {
@@ -348,6 +408,7 @@ public class QuanLyPhieuXuat extends javax.swing.JFrame {
         }
         return list;
     }
+
     private void searchData(String search) {
         try {
             DefaultTableModel model = (DefaultTableModel) table.getModel();
@@ -374,11 +435,10 @@ public class QuanLyPhieuXuat extends javax.swing.JFrame {
 //        });
 //    }
 
-
-
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private swing.ButtonAction btnChinhSua;
+    private javax.swing.JButton btnExportExcel;
+    private javax.swing.JButton btnExportPDF;
     private swing.ButtonAction btnThem;
     private swing.ButtonAction btnXoa;
     private javax.swing.JLabel lbTitle;

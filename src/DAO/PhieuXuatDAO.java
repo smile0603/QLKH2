@@ -173,7 +173,54 @@ public class PhieuXuatDAO {
         return dsPhieuXuat;
 
     }
+        public PhieuXuat getPhieuXuatTheoMa(int t) {
+        PhieuXuat px = null;
+        Connection con = (Connection) config.JDBCUtil.getConnection();
+        String sql = "select tb_PhieuXuat.*,tb_NhanVien.tenNV,tb_SanPham.tenSP,tb_NCC.tenNCC,tb_NCC.diaChiNCC,tb_KhachHang.tenKH "
+                + "from tb_PhieuXuat,tb_SanPham,tb_NhanVien,tb_NCC,tb_KhachHang "
+                + "where tb_PhieuXuat.maPX like ? "
+                + "and tb_PhieuXuat.maSP=tb_SanPham.maSP "
+                + "and tb_PhieuXuat.maNV = tb_NhanVien.maNV "
+                + "and tb_PhieuXuat.maNCC = tb_NCC.maNCC "
+                + "and tb_PhieuXuat.maKH = tb_KhachHang.maKH";
 
+        try {
+            PreparedStatement p = (PreparedStatement) con.prepareStatement(sql);
+            p.setInt(1, t);
+            ResultSet rs = p.executeQuery();
+            while (rs.next()) {
+                int maPX = rs.getInt("maPX");
+                String maSP = rs.getString("maSP");
+                int maNCC = rs.getInt("maNCC");
+                String maNV = rs.getString("maNV");
+                String maKH = rs.getString("maKH");
+                Date ngayXuat = rs.getDate("ngayXuat");
+                int soLuong = rs.getInt("soLuongXuat");
+                double donGia = rs.getDouble("donGia");
+                double chietKhau = rs.getDouble("chietKhau");
+                double thanhTien = (soLuong * donGia) - (soLuong * donGia * (chietKhau / 100));
+                String ghiChu = rs.getString("ghiChu");
+                String tenNCC = rs.getString("tenNCC");
+                String diaChiNCC = rs.getString("diaChiNCC");
+                String tenSP = rs.getString("tenSP");
+                String tenNV = rs.getString("tenNV");
+                String tenKH = rs.getString("tenKH");
+                NhaCungCap ncc = new NhaCungCap(maNCC, tenNCC,diaChiNCC);
+                SanPham sp = new SanPham(maSP, tenSP);
+                NhanVien nv = new NhanVien(maNV, tenNV);
+                KhachHang kh = new KhachHang(maKH, tenKH);
+                px = new PhieuXuat(maPX, nv, ncc, sp, ngayXuat, soLuong, donGia, chietKhau, thanhTien, ghiChu, kh);
+                
+
+            }
+            config.JDBCUtil.closeConnection(con);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(NhaCungCapDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return px;
+
+    }
     public ArrayList<PhieuXuat> search(String search) {
         ArrayList<PhieuXuat> dsPhieuXuat = new ArrayList<>();
         Connection con = (Connection) config.JDBCUtil.getConnection();
@@ -225,5 +272,6 @@ public class PhieuXuatDAO {
         return dsPhieuXuat;
 
     }
+    
 
 }

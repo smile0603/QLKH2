@@ -47,10 +47,13 @@
                       <Group type="102" attributes="0">
                           <EmptySpace min="-2" pref="369" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="labelTK" min="-2" pref="252" max="-2" attributes="0"/>
                               <Component id="txtAdmin" min="-2" pref="252" max="-2" attributes="0"/>
                               <Component id="labelMK" alignment="0" min="-2" pref="277" max="-2" attributes="0"/>
                               <Component id="passAdmin" min="-2" pref="252" max="-2" attributes="0"/>
+                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="jLabel1" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="labelTK" alignment="0" pref="252" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
@@ -65,7 +68,9 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="139" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
+                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
                   <Component id="labelTK" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="txtAdmin" min="-2" max="-2" attributes="0"/>
@@ -75,7 +80,7 @@
                   <Component id="passAdmin" min="-2" pref="63" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
                   <Component id="btnAdminLogin" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="220" max="32767" attributes="0"/>
+                  <EmptySpace pref="216" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -114,6 +119,14 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="33" green="33" red="ff" type="rgb"/>
             </Property>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel1">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Segoe UI" size="14" style="3"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="&#x110;&#x103;ng nh&#x1ead;p t&#xe0;i kho&#x1ea3;n Admin"/>
           </Properties>
         </Component>
       </SubComponents>

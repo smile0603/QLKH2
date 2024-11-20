@@ -66,6 +66,11 @@ public class NhaCungCap {
         this.maNCC = maNCC;
         this.tenNCC = tenNCC;
     }
+    public NhaCungCap(int maNCC, String tenNCC,String diaChi) {
+        this.maNCC = maNCC;
+        this.tenNCC = tenNCC;
+        this.diaChi = diaChi;
+    }
     
     public Object[] toTableRow(int rowNum){
         return new Object[]{false,rowNum,maNCC,this,diaChi,email,sdtNCC};
