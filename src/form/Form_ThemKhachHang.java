@@ -64,6 +64,29 @@ public class Form_ThemKhachHang extends javax.swing.JPanel {
 
         return true;
     }
+    public void setEditMaKH() {
+        txtMaKH.setEditable(false);
+    }
+
+    public boolean checkMaKH(String t) {
+        KhachHangDAO khachHangDAO = new KhachHangDAO();
+        try {
+            for (KhachHang kh : khachHangDAO.getAllKhachHang()) {
+                if (kh.getMaKH().trim().equals(t.trim())) {
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public String getMaKHFromText() {
+        String maKH = txtMaKH.getText().trim();
+        return maKH;
+
+    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

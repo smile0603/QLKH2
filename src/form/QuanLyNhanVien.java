@@ -263,6 +263,7 @@ public class QuanLyNhanVien extends javax.swing.JFrame {
                 NhanVienDAO nhanVienDAO = new NhanVienDAO();
                 Form_ThemNhanVien form_ThemNhanVien = new Form_ThemNhanVien();
                 form_ThemNhanVien.loadData(nhanVienDAO, nv);
+                form_ThemNhanVien.setEditMaNV();
                 DefaultOption option = new DefaultOption() {
                     @Override
                     public boolean closeWhenClickOutside() {
@@ -282,7 +283,6 @@ public class QuanLyNhanVien extends javax.swing.JFrame {
                                 pc.closePopup();
                                 Notifications.getInstance().show(Notifications.Type.SUCCESS, "Chỉnh sửa thành công!");
                             }
-
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -326,10 +326,15 @@ public class QuanLyNhanVien extends javax.swing.JFrame {
                 //Save
                 try {
                     if (form_ThemNhanVien.validData() == true) {
-                        nhanVienDAO.create(form_ThemNhanVien.getDataFromText());
-                        pc.closePopup();
-                        Notifications.getInstance().show(Notifications.Type.SUCCESS, "Thêm thành công!");
-                        loadData();
+                        if(form_ThemNhanVien.checkMaNV(form_ThemNhanVien.getMaNVFromText()) == true){
+                            nhanVienDAO.create(form_ThemNhanVien.getDataFromText());
+                            pc.closePopup();
+                            Notifications.getInstance().show(Notifications.Type.SUCCESS, "Thêm thành công!");
+                            loadData();
+                        }else{
+                            Notifications.getInstance().show(Notifications.Type.SUCCESS, "Mã NV Trùng");
+                        }
+
                     }
 
                 } catch (Exception e) {

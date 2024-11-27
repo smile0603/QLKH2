@@ -54,7 +54,28 @@ public class Form_ThemSanPham extends javax.swing.JPanel {
             txtGhiChu.setText(data.getGhiChu());
         }
     }
+    public boolean checkMaSP(String t) {
+        SanPhamDAO sanPhamDAO = new SanPhamDAO();
+        try {
+            for (SanPham sp : sanPhamDAO.getAllSanPham()) {
+                if (sp.getMaSP().trim().equals(t.trim())) {
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+    public String getMaSPFromText() {
+        String maSP = txtmaSP.getText().trim();
+        return maSP;
 
+    }
+
+    public void setEditMaSP() {
+        txtmaSP.setEditable(false);
+    }
     public boolean validData() {
         String tenSP = txtTenSP.getText().trim();
         String maSP = txtmaSP.getText().trim();
@@ -62,6 +83,7 @@ public class Form_ThemSanPham extends javax.swing.JPanel {
             lbNotification.setText("Mã SP có định dạng (vd: AB123)");
             return false;
         }
+
         if (!(tenSP.length() > 0 && tenSP.matches("[\\w\\d\\/ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ ]+"))) {
             lbNotification.setText("Tên sản phẩm không hợp lệ");
             return false;
@@ -110,9 +132,9 @@ public class Form_ThemSanPham extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(lbNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 9, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(17, 17, 17)
+                .addComponent(lbNotification, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtmaSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(30, 30, 30)
                 .addComponent(txtTenSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)

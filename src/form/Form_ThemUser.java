@@ -46,6 +46,9 @@ public class Form_ThemUser extends javax.swing.JPanel {
         }
         return false;
     }
+    public void setNoEditUserName(){
+        txtUserName.setEditable(false);
+    }
     public boolean validData() {
         String userName = txtUserName.getText().trim();
         String fullName = txtFullName.getText().trim();

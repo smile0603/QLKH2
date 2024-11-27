@@ -261,7 +261,8 @@ public class QuanLyTaiKhoan extends javax.swing.JFrame {
                 UserDAO userDAO = new UserDAO();
                 Form_ThemUser form_ThemUser = new Form_ThemUser();
                 form_ThemUser.loadData(userDAO, user);
-
+                form_ThemUser.setNoEditUserName();
+                
                 DefaultOption option = new DefaultOption() {
                     @Override
                     public boolean closeWhenClickOutside() {
@@ -320,8 +321,6 @@ public class QuanLyTaiKhoan extends javax.swing.JFrame {
                         Notifications.getInstance().show(Notifications.Type.SUCCESS, "Thêm thành công!");
                         loadData();
                     }
-
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

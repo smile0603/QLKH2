@@ -259,6 +259,7 @@ public class QuanLySanPham extends javax.swing.JFrame {
                 SanPhamDAO sanPhamDAO = new SanPhamDAO();
                 Form_ThemSanPham formThemSP = new Form_ThemSanPham();
                 formThemSP.loadData(sanPhamDAO, sp);
+                formThemSP.setEditMaSP();
 
                 DefaultOption option = new DefaultOption() {
                     @Override
@@ -313,10 +314,15 @@ public class QuanLySanPham extends javax.swing.JFrame {
                 //Save
                 try {
                     if(formThemSP.validData() == true){
-                        sanPhamDAO.create(formThemSP.getDataFromInput());
-                        pc.closePopup();
-                        Notifications.getInstance().show(Notifications.Type.SUCCESS, "Thêm thành công!");
-                        loadData();
+                        if(formThemSP.checkMaSP(formThemSP.getMaSPFromText()) == true){
+                            sanPhamDAO.create(formThemSP.getDataFromInput());
+                            pc.closePopup();
+                            Notifications.getInstance().show(Notifications.Type.SUCCESS, "Thêm thành công!");
+                            loadData();
+                        }else{
+                            Notifications.getInstance().show(Notifications.Type.SUCCESS, "Mã SP Trùng");
+                        }
+
                     }
 
 

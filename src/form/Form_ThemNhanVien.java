@@ -24,7 +24,27 @@ public class Form_ThemNhanVien extends javax.swing.JPanel {
 
 
     }
-
+    public String getMaNVFromText(){
+        String maNV = txtMaNV.getText().trim();
+        return maNV;
+        
+    }
+    public boolean checkMaNV(String t) {
+        NhanVienDAO nhanVienDAO = new NhanVienDAO();
+        try {
+            for (NhanVien nv : nhanVienDAO.getAllNhanVien()) {
+                if (nv.getMaNV().trim().equals(t.trim())) {
+                    return false;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+    public void setEditMaNV(){
+        txtMaNV.setEditable(false);
+    }
     public void loadData(NhanVienDAO nhanVienDAO, NhanVien nv) {
         if (nv != null) {
             txtMaNV.setText(nv.getMaNV());
@@ -44,6 +64,10 @@ public class Form_ThemNhanVien extends javax.swing.JPanel {
             lbNotification.setText("Mã NV có định dạng (vd: VP2048)");
             return false;
         }
+//        if(checkMaNV(maNV) == true){
+//            lbNotification.setText("Mã Nhân viên trùng");
+//            return false;
+//        }
         if (!(tenNV.length() > 0 && tenNV.matches("[\\wÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ ]+"))) {
             lbNotification.setText("Tên nhân viên không hợp lệ");
             return false;

@@ -228,10 +228,15 @@ public class QuanLyKhachHang extends javax.swing.JFrame {
                 //Save
                 try {
                     if (form_ThemKhachHang.validData() == true) {
-                        khachHangDAO.create(form_ThemKhachHang.getDataFromText());
-                        pc.closePopup();
-                        Notifications.getInstance().show(Notifications.Type.SUCCESS, "Thêm thành công!");
-                        loadData();
+                        if(form_ThemKhachHang.checkMaKH(form_ThemKhachHang.getMaKHFromText()) == true){
+                            khachHangDAO.create(form_ThemKhachHang.getDataFromText());
+                            pc.closePopup();
+                            Notifications.getInstance().show(Notifications.Type.SUCCESS, "Thêm thành công!");
+                            loadData();
+                        }else{
+                            Notifications.getInstance().show(Notifications.Type.SUCCESS, "Mã KH Trùng");
+                        }
+
                     }
 
                 } catch (Exception e) {
@@ -252,6 +257,7 @@ public class QuanLyKhachHang extends javax.swing.JFrame {
 
                 Form_ThemKhachHang form_ThemKhachHang = new Form_ThemKhachHang();
                 form_ThemKhachHang.loadData(khachHangDAO, kh);
+                form_ThemKhachHang.setEditMaKH();
                 DefaultOption option = new DefaultOption() {
                     @Override
                     public boolean closeWhenClickOutside() {
