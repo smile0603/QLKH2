@@ -39,7 +39,8 @@ import java.util.List;
 import java.util.Locale;
 
 public class writePDF {
-    Locale locale = new Locale("vi","VN");
+
+    Locale locale = new Locale("vi", "VN");
     NumberFormat format = NumberFormat.getCurrencyInstance(locale);
 
     SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/YYYY HH:mm");
@@ -55,6 +56,7 @@ public class writePDF {
     PhieuNhapDAO phieuNhapDAO = new PhieuNhapDAO();
     ThongKeDAO thongKeDAO = new ThongKeDAO();
     PhieuXuatDAO phieuXuatDAO = new PhieuXuatDAO();
+
     public writePDF() {
         try {
             fontNormal10 = new Font(BaseFont.createFont("font/TimesNewRoman/SVN-Times New Roman.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED), 12, Font.NORMAL);
@@ -222,6 +224,90 @@ public class writePDF {
 
     }
 
+    public void writeThongKeMaSP(String maSearch) {
+        String url = "";
+
+        try {
+            fd.setTitle("In thống kê");
+            fd.setLocationRelativeTo(null);
+            url = getFile("thongke"+maSearch);
+            if (url.equals("nullnull")) {
+                return;
+            }
+            url = url + ".pdf";
+            file = new FileOutputStream(url);
+            document = new Document();
+            PdfWriter writer = PdfWriter.getInstance(document, file);
+            document.open();
+
+            Paragraph company = new Paragraph("THÔNG TIN PHIẾU THỐNG KÊ", fontBold15);
+            company.add(new Chunk(createWhiteSpace(20)));
+            Date today = new Date(System.currentTimeMillis());
+            company.add(new Chunk("Thời gian in phiếu: " + formatDate.format(today), fontNormal10));
+            company.setAlignment(Element.ALIGN_LEFT);
+            document.add(company);
+            // Thêm tên công ty vào file PDF
+            document.add(Chunk.NEWLINE);
+            Paragraph header = new Paragraph("Thống kê theo mã sản phẩm" + maSearch, fontBoldItalic15);
+            header.setAlignment(Element.ALIGN_LEFT);
+            document.add(Chunk.NEWLINE);
+            document.add(Chunk.NEWLINE);
+            document.add(header);
+
+            // Thêm table 7 cột vào file PDF
+            PdfPTable table = new PdfPTable(5);
+            table.setWidthPercentage(100);
+            table.setWidths(new float[]{25f, 25f, 25f, 15f, 20f});
+            PdfPCell cell;
+            document.add(Chunk.NEWLINE);
+            table.addCell(new PdfPCell(new Phrase("Mã SP", fontBold15)));
+            table.addCell(new PdfPCell(new Phrase("Tên SP", fontBold15)));
+            table.addCell(new PdfPCell(new Phrase("Tổng SL Nhập", fontBold15)));
+            table.addCell(new PdfPCell(new Phrase("Tổng SL Xuất", fontBold15)));
+            table.addCell(new PdfPCell(new Phrase("Tổng tồn", fontBold15)));
+            for (int i = 0; i < 5; i++) {
+                cell = new PdfPCell(new Phrase(""));
+                table.addCell(cell);
+            }
+            //Truyen thong tin tung chi tiet vao table
+            
+            List<ThongKeNgay> listTK = thongKeDAO.getThongKeSP(maSearch);
+
+            for (ThongKeNgay tk : listTK) {
+                String maSP = tk.getSanPham().getMaSP();
+                String tenSP = tk.getSanPham().getTenSP();
+                int slNhap = tk.getTongNhap();
+                int slXuat = tk.getTongXuat();
+                int tongTon = tk.getTongTon();
+                
+                table.addCell(new PdfPCell(new Phrase(maSP, fontNormal10)));
+                table.addCell(new PdfPCell(new Phrase(tenSP, fontNormal10)));
+                table.addCell(new PdfPCell(new Phrase(Integer.toString(slNhap), fontNormal10)));
+                table.addCell(new PdfPCell(new Phrase(Integer.toString(slXuat), fontNormal10)));
+                table.addCell(new PdfPCell(new Phrase(Integer.toString(tongTon), fontNormal10)));
+
+            }
+            document.add(table);
+            document.add(Chunk.NEWLINE);
+
+            Paragraph paragraph = new Paragraph();
+            paragraph.setIndentationLeft(22);
+            paragraph.add(new Chunk("Người lập phiếu", fontBoldItalic15));
+            Paragraph sign = new Paragraph();
+            sign.setIndentationLeft(23);
+            sign.add(new Chunk("(Ký và ghi rõ họ tên)", fontNormal10));
+            document.add(paragraph);
+            document.add(sign);
+            document.close();
+            writer.close();
+            openFile(url);
+
+        } catch (DocumentException | FileNotFoundException ex) {
+            JOptionPane.showMessageDialog(null, "Lỗi khi ghi file " + url);
+        }
+
+    }
+
     public void writePhieuNhap(int ma) {
         String url = "";
         try {
@@ -249,7 +335,6 @@ public class writePDF {
             document.add(Chunk.NEWLINE);
             document.add(Chunk.NEWLINE);
 
-            
             PhieuNhap pn = phieuNhapDAO.getPhieuNhapTheoMa(ma);
             // Thêm dòng Paragraph vào file PDF
             Paragraph paragraph1 = new Paragraph("Mã phiếu: PN-" + pn.getMaPN(), fontNormal10);
@@ -288,25 +373,25 @@ public class writePDF {
             }
             //Truyen thong tin tung chi tiet vao table
 
-                int maPN = pn.getMaPN();
-                String tenPN = pn.getSanPham().getTenSP();
-                Date ngayNhap = pn.getNgayNhap();
-                int soLuong = pn.getSoLuong();
-                double donGia = pn.getDonGia();
-                double chietKhau = pn.getChietKhau();
-                double thanhTien = pn.getThanhTien();
-                String ghiChu = pn.getGhiChu();
-                DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-                String strNgayNhap = ngayNhap == null ? "" : df.format(ngayNhap);
-                table.addCell(new PdfPCell(new Phrase(Integer.toString(maPN), fontNormal10)));
-                table.addCell(new PdfPCell(new Phrase(tenPN, fontNormal10)));
-                table.addCell(new PdfPCell(new Phrase(strNgayNhap, fontNormal10)));
-                table.addCell(new PdfPCell(new Phrase(Integer.toString(soLuong), fontNormal10)));
-                table.addCell(new PdfPCell(new Phrase(format.format(donGia) + " vnd", fontNormal10)));
-                table.addCell(new PdfPCell(new Phrase(Double.toString(chietKhau)+" %", fontNormal10)));
-                table.addCell(new PdfPCell(new Phrase(format.format(thanhTien) +" vnd", fontNormal10)));
-                table.addCell(new PdfPCell(new Phrase(ghiChu, fontNormal10)));
-            
+            int maPN = pn.getMaPN();
+            String tenPN = pn.getSanPham().getTenSP();
+            Date ngayNhap = pn.getNgayNhap();
+            int soLuong = pn.getSoLuong();
+            double donGia = pn.getDonGia();
+            double chietKhau = pn.getChietKhau();
+            double thanhTien = pn.getThanhTien();
+            String ghiChu = pn.getGhiChu();
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            String strNgayNhap = ngayNhap == null ? "" : df.format(ngayNhap);
+            table.addCell(new PdfPCell(new Phrase(Integer.toString(maPN), fontNormal10)));
+            table.addCell(new PdfPCell(new Phrase(tenPN, fontNormal10)));
+            table.addCell(new PdfPCell(new Phrase(strNgayNhap, fontNormal10)));
+            table.addCell(new PdfPCell(new Phrase(Integer.toString(soLuong), fontNormal10)));
+            table.addCell(new PdfPCell(new Phrase(format.format(donGia) + " vnd", fontNormal10)));
+            table.addCell(new PdfPCell(new Phrase(Double.toString(chietKhau) + " %", fontNormal10)));
+            table.addCell(new PdfPCell(new Phrase(format.format(thanhTien) + " vnd", fontNormal10)));
+            table.addCell(new PdfPCell(new Phrase(ghiChu, fontNormal10)));
+
             document.add(table);
             document.add(Chunk.NEWLINE);
 
@@ -335,6 +420,7 @@ public class writePDF {
         }
 
     }
+
     public void writePhieuXuat(int ma) {
         String url = "";
         try {
@@ -360,7 +446,7 @@ public class writePDF {
             document.add(Chunk.NEWLINE);
             document.add(Chunk.NEWLINE);
             document.add(Chunk.NEWLINE);
-            
+
             PhieuXuat px = phieuXuatDAO.getPhieuXuatTheoMa(ma);
             // Thêm dòng Paragraph vào file PDF
             Paragraph paragraph1 = new Paragraph("Mã phiếu: PX-" + px.getMaPX(), fontNormal10);
@@ -370,8 +456,8 @@ public class writePDF {
             paragraph3.add(new Chunk(createWhiteSpace(5)));
             paragraph3.add(new Chunk("Địa chỉ NCC: " + px.getNhaCungCap().getDiaChi(), fontNormal10));
             Paragraph paragraph4 = new Paragraph("Người thực hiện: " + px.getNhanVien().getTenNV(), fontNormal10);
-            Paragraph paragraph5 = new Paragraph("Khách hàng: " + px.getKhachHang().getTenKH(),fontNormal10);
-            
+            Paragraph paragraph5 = new Paragraph("Khách hàng: " + px.getKhachHang().getTenKH(), fontNormal10);
+
             paragraph4.add(new Chunk(createWhiteSpace(5)));
             document.add(paragraph1);
             document.add(paragraph2);
@@ -393,35 +479,32 @@ public class writePDF {
             table.addCell(new PdfPCell(new Phrase("Chiết khấu", fontBold15)));
             table.addCell(new PdfPCell(new Phrase("Thành tiền", fontBold15)));
             table.addCell(new PdfPCell(new Phrase("Ghi chú", fontBold15)));
-            
-            
+
             for (int i = 0; i < 8; i++) {
                 cell = new PdfPCell(new Phrase(""));
                 table.addCell(cell);
             }
             //Truyen thong tin tung chi tiet vao table
-            
 
-            
-                int maPX = px.getMaPX();
-                String tenSP = px.getSanPham().getTenSP();
-                Date ngayXuat = px.getNgayXuat();
-                int soLuong = px.getSoLuong();
-                double donGia = px.getDonGia();
-                double chietKhau = px.getChietKhau();
-                double thanhTien = px.getThanhTien();
-                String ghiChu = px.getGhiChu();
-                DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
-                String strNgayXuat = ngayXuat == null ? "" : df.format(ngayXuat);
-                table.addCell(new PdfPCell(new Phrase(Integer.toString(maPX), fontNormal10)));
-                table.addCell(new PdfPCell(new Phrase(tenSP, fontNormal10)));
-                table.addCell(new PdfPCell(new Phrase(strNgayXuat, fontNormal10)));
-                table.addCell(new PdfPCell(new Phrase(Integer.toString(soLuong), fontNormal10)));
-                table.addCell(new PdfPCell(new Phrase(format.format(donGia) + " vnd", fontNormal10)));
-                table.addCell(new PdfPCell(new Phrase(Double.toString(chietKhau)+" %", fontNormal10)));
-                table.addCell(new PdfPCell(new Phrase(format.format(thanhTien) +" vnd", fontNormal10)));
-                table.addCell(new PdfPCell(new Phrase(ghiChu, fontNormal10)));
-            
+            int maPX = px.getMaPX();
+            String tenSP = px.getSanPham().getTenSP();
+            Date ngayXuat = px.getNgayXuat();
+            int soLuong = px.getSoLuong();
+            double donGia = px.getDonGia();
+            double chietKhau = px.getChietKhau();
+            double thanhTien = px.getThanhTien();
+            String ghiChu = px.getGhiChu();
+            DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+            String strNgayXuat = ngayXuat == null ? "" : df.format(ngayXuat);
+            table.addCell(new PdfPCell(new Phrase(Integer.toString(maPX), fontNormal10)));
+            table.addCell(new PdfPCell(new Phrase(tenSP, fontNormal10)));
+            table.addCell(new PdfPCell(new Phrase(strNgayXuat, fontNormal10)));
+            table.addCell(new PdfPCell(new Phrase(Integer.toString(soLuong), fontNormal10)));
+            table.addCell(new PdfPCell(new Phrase(format.format(donGia) + " vnd", fontNormal10)));
+            table.addCell(new PdfPCell(new Phrase(Double.toString(chietKhau) + " %", fontNormal10)));
+            table.addCell(new PdfPCell(new Phrase(format.format(thanhTien) + " vnd", fontNormal10)));
+            table.addCell(new PdfPCell(new Phrase(ghiChu, fontNormal10)));
+
             document.add(table);
             document.add(Chunk.NEWLINE);
 

@@ -77,7 +77,7 @@ public class Form_ThemNhanVien extends javax.swing.JPanel {
             return false;
         }
         
-        if (!(sdt.length() > 0 && sdt.matches("([\\+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\\b"))) {
+        if (!(sdt.length() > 0 && sdt.matches("([+84|84|0]+(3|5|7|8|9|1[2|6|8|9]))+([0-9]{8})\\b"))) {
             lbNotification.setText("Số điện thoại không hợp lệ");
             return false;
         }

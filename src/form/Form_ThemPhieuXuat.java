@@ -134,7 +134,7 @@ public class Form_ThemPhieuXuat extends javax.swing.JPanel {
             lbNotification.setText("Vui lòng chọn ngày xuất");
             return false;
         }
-        if (!(soLuong.length() > 0 && soLuong.matches("[1|2|3|4|5|6|7|8|9]+[0-9]+"))) {
+        if (!(soLuong.length() > 0 && soLuong.matches("^[1-9][0-9]*$"))) {
             lbNotification.setText("Số lượng không hợp lệ");
             return false;
         }

@@ -8,7 +8,7 @@ public class JDBCUtil {
     public static Connection getConnection(){
         Connection con = null;
         //final String url = "jdbc:sqlserver://localhost:1433;databasename = CSDL_QLK;encrypt=true;trustServerCertificate=true";
-        final String url = "jdbc:sqlserver://LAPTOP-GCBNN3SM\\SQLEXPRESS:1433;databasename = CSDL_QLK;encrypt=true;trustServerCertificate=true";
+        final String url = "jdbc:sqlserver://localhost:1433;databasename = CSDL_QLK;encrypt=true;trustServerCertificate=true";
         final String user  = "sa";
         final  String password = "123456";
         try {

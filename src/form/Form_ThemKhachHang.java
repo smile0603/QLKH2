@@ -48,7 +48,7 @@ public class Form_ThemKhachHang extends javax.swing.JPanel {
             lbNotification.setText("Tên khách hàng không hợp lệ");
             return false;
         }
-        if (!(diaChi.length() > 0 && diaChi.matches("[\\w\\d\\\\/\\\\,\\\\.ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ ]+"))) {
+        if (!(diaChi.length() > 0 && diaChi.matches("[\\w\\d\\/\\,\\-\\.ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚÝàáâãèéêìíòóôõùúýĂăĐđĨĩŨũƠơƯưẠ-ỹ ]+"))) {
             lbNotification.setText("Địa chỉ không hợp lệ");
             return false;
         }

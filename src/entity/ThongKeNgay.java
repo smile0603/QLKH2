@@ -66,7 +66,12 @@ public class ThongKeNgay {
         this.tongXuat = tongXuat;
         this.tongTon = tongTon;
     }
-
+    public ThongKeNgay(SanPham sanPham, int tongNhap, int tongXuat, int tongTon) {
+        this.sanPham = sanPham;
+        this.tongNhap = tongNhap;
+        this.tongXuat = tongXuat;
+        this.tongTon = tongTon;
+    }
 
 
     public ThongKeNgay() {
@@ -75,7 +80,9 @@ public class ThongKeNgay {
     public Object[] toTableRow(int rowNum) {
         return new Object[]{rowNum, sanPham.getMaSP(), this, tonDauKy, tongNhap, tongXuat, tonCuoiKy,tongTon};
     }
-
+    public Object[] toTableRow2(int rowNum) {
+        return new Object[]{rowNum, sanPham.getMaSP(), this, tongNhap, tongXuat,tongTon};
+    }
     @Override
     public String toString() {
         return sanPham.getTenSP();

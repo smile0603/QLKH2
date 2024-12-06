@@ -58,9 +58,9 @@
                           <Component id="txtSearch" min="-2" pref="200" max="-2" attributes="0"/>
                           <EmptySpace min="-2" pref="282" max="-2" attributes="0"/>
                           <Component id="bntThem" min="-2" pref="110" max="-2" attributes="0"/>
-                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
                           <Component id="btnChinhSua" min="-2" pref="144" max="-2" attributes="0"/>
-                          <EmptySpace pref="38" max="32767" attributes="0"/>
+                          <EmptySpace pref="18" max="32767" attributes="0"/>
                           <Component id="btnXoa" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
